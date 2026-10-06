@@ -132,20 +132,16 @@ body {
 html.screen-locked,
 body.screen-locked {
   height: 100% !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  max-height: 100vh !important;
-  max-height: 100dvh !important;
+  height: var(--app-height, 100dvh) !important;
+  max-height: var(--app-height, 100dvh) !important;
   overflow: hidden !important;
   overscroll-behavior: none !important;
 }
 
 #app-container.screen-locked {
   height: 100% !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  max-height: 100vh !important;
-  max-height: 100dvh !important;
+  height: var(--app-height, 100dvh) !important;
+  max-height: var(--app-height, 100dvh) !important;
   overflow: hidden !important;
 }
 
@@ -203,11 +199,11 @@ body.check-balance-active {
 #page-check-balance.active {
   display: flex !important;
   flex-direction: column !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  max-height: 100vh !important;
-  max-height: 100dvh !important;
+  height: 100% !important;
+  height: var(--app-height, 100dvh) !important;
+  max-height: var(--app-height, 100dvh) !important;
   overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 .page.with-nav {
   padding-bottom: calc(var(--nav-height) + 24px) !important;

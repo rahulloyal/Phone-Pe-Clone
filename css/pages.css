@@ -1222,16 +1222,7 @@
   border-bottom-right-radius: 28px;
 }
 
-/* Laser Scanning Line */
-.scanner-laser-purple {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #e879f9 20%, #a855f7 50%, #e879f9 80%, transparent);
-  border-radius: 2px;
-  animation: purpleLaserScan 2.4s ease-in-out infinite alternate;
-}
+
 
 .scanner-flash-indicator {
   position: absolute;
@@ -1380,10 +1371,9 @@
    -------------------------------------------------------------------------- */
 #page-pay.active {
   background: #000000;
-  height: 100vh !important;
-  height: 100dvh !important;
-  max-height: 100vh !important;
-  max-height: 100dvh !important;
+  height: 100% !important;
+  height: var(--app-height, 100dvh) !important;
+  max-height: var(--app-height, 100dvh) !important;
   width: 100%;
   display: flex !important;
   flex-direction: column !important;
@@ -1399,7 +1389,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 10px 16px;
   background: #000000;
   border-bottom: 1px solid #1a1a20;
   flex-shrink: 0;
@@ -1429,7 +1419,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: 14px 16px 10px;
+  padding: 8px 14px 6px;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -1438,24 +1428,24 @@
 .payee-profile-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   background: #141418;
   border: 1px solid #23232c;
-  border-radius: 14px;
-  padding: 12px 14px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
   flex-shrink: 0;
 }
 
 .payee-avatar-circle {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: #795548;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.5px;
@@ -1469,14 +1459,14 @@
 }
 
 .payee-display-name {
-  font-size: 15.5px;
+  font-size: 15px;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 2px;
 }
 
 .payee-vpa-id {
-  font-size: 13px;
+  font-size: 12.5px;
   color: #9ca3af;
   font-weight: 400;
 }
@@ -1486,12 +1476,12 @@
   background: #121217;
   border: 2px solid #a855f7;
   border-radius: 12px;
-  padding: 14px 16px;
-  margin-bottom: 12px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  box-shadow: 0 0 18px rgba(168, 85, 247, 0.18);
-  min-height: 60px;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.16);
+  min-height: 50px;
   flex-shrink: 0;
 }
 
@@ -1502,14 +1492,14 @@
 }
 
 .pay-rupee-symbol {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   color: #ffffff;
   margin-right: 8px;
 }
 
 .pay-amount-value {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.5px;
@@ -1518,7 +1508,7 @@
 .pay-blinking-cursor {
   display: inline-block;
   width: 2.5px;
-  height: 28px;
+  height: 26px;
   background: #38bdf8;
   margin-left: 4px;
   border-radius: 1px;
@@ -1530,8 +1520,8 @@
   background: #121217;
   border: 1px solid #272730;
   border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
+  padding: 8px 14px;
+  margin-bottom: 8px;
   flex-shrink: 0;
 }
 
@@ -1541,7 +1531,7 @@
   border: none;
   outline: none;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 13.5px;
 }
 
 .pay-message-field::placeholder {
@@ -1551,7 +1541,7 @@
 /* Proceed to Pay Purple Button (Image 2) */
 .pay-proceed-btn-wrap {
   margin-top: auto;
-  margin-bottom: 0;
+  margin-bottom: 2px;
   flex-shrink: 0;
   width: 100%;
 }
@@ -1562,8 +1552,8 @@
   color: #ffffff;
   border: none;
   border-radius: 10px;
-  padding: 14px;
-  font-size: 15.5px;
+  padding: 12px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.2px;
   cursor: pointer;
@@ -1576,11 +1566,11 @@
   background: #6d28d9;
 }
 
-/* Integrated Custom PhonePe Keypad (Docked to bottom edge of mobile screen) */
+/* Integrated Custom PhonePe Keypad (Docked cleanly above mobile bottom edge) */
 .phonepe-custom-numeric-keypad {
   background: #17181d;
   margin: 0;
-  padding: 6px 10px max(16px, env(safe-area-inset-bottom, 16px));
+  padding: 4px 8px max(8px, env(safe-area-inset-bottom, 8px));
   border-top: 1px solid #23232c;
   flex-shrink: 0;
   width: 100%;
@@ -1591,19 +1581,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 8px 8px;
+  padding: 2px 8px 5px;
   color: #9ca3af;
 }
 
 .keypad-toolbar-icons .material-icons {
-  font-size: 20px;
+  font-size: 19px;
   cursor: pointer;
 }
 
 .keypad-numeric-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  gap: 5px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -1613,12 +1603,12 @@
   box-sizing: border-box;
   background: #25262e;
   border: none;
-  border-radius: 14px;
-  height: 48px;
+  border-radius: 12px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 600;
   color: #ffffff;
   cursor: pointer;
@@ -1633,11 +1623,11 @@
 
 .k-num-btn.k-spec {
   color: #cbd5e1;
-  font-size: 19px;
+  font-size: 18px;
 }
 
 .k-num-btn.k-spec .material-icons {
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .k-num-btn.k-action-enter {
@@ -1649,20 +1639,14 @@
   background: #2563eb;
 }
 
-@media (max-height: 720px) {
-  .pay-top-nav-bar { padding: 10px 16px; }
-  .pay-screen-body { padding: 10px 14px 8px; }
-  .payee-profile-card { padding: 8px 12px; margin-bottom: 8px; border-radius: 10px; }
-  .payee-avatar-circle { width: 38px; height: 38px; font-size: 15px; }
-  .pay-amount-box-purple { padding: 10px 14px; min-height: 52px; margin-bottom: 8px; }
-  .pay-amount-value { font-size: 26px; }
-  .pay-rupee-symbol { font-size: 24px; }
-  .pay-message-container { padding: 8px 14px; margin-bottom: 8px; }
-  .btn-proceed-phonepe-purple { padding: 12px; font-size: 14.5px; }
-  .phonepe-custom-numeric-keypad { padding: 6px 10px max(12px, env(safe-area-inset-bottom, 12px)); }
-  .k-num-btn { height: 42px; font-size: 19px; border-radius: 12px; }
-  .keypad-numeric-grid { gap: 6px; }
-  .keypad-toolbar-icons { padding: 2px 8px 6px; }
+@media (max-height: 680px) {
+  .pay-screen-body { padding: 6px 12px 4px; }
+  .payee-profile-card { padding: 8px 10px; margin-bottom: 6px; }
+  .pay-amount-box-purple { padding: 8px 12px; min-height: 44px; margin-bottom: 6px; }
+  .pay-message-container { padding: 6px 12px; margin-bottom: 6px; }
+  .btn-proceed-phonepe-purple { padding: 10px; font-size: 14px; }
+  .k-num-btn { height: 36px; font-size: 17px; border-radius: 10px; }
+  .keypad-numeric-grid { gap: 4px; }
 }
 
 @media (max-height: 600px) {
@@ -2066,10 +2050,9 @@
 #page-check-balance.active {
   background: #ffffff !important;
   color: #1e293b !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  max-height: 100vh !important;
-  max-height: 100dvh !important;
+  height: 100% !important;
+  height: var(--app-height, 100dvh) !important;
+  max-height: var(--app-height, 100dvh) !important;
   width: 100%;
   display: flex !important;
   flex-direction: column !important;
@@ -2092,7 +2075,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 18px 10px;
+  padding: 10px 16px 6px;
   background: #ffffff;
   flex-shrink: 0;
 }
@@ -2109,7 +2092,7 @@
 }
 
 .pin-upi-text {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 900;
   font-style: italic;
   color: #1f2937;
@@ -2124,13 +2107,13 @@
 }
 
 .pin-upi-arrow-orange {
-  font-size: 12px;
+  font-size: 11px;
   color: #f97316;
   line-height: 1;
 }
 
 .pin-upi-arrow-green {
-  font-size: 12px;
+  font-size: 11px;
   color: #16a34a;
   margin-left: -4px;
   line-height: 1;
@@ -2141,12 +2124,12 @@
   font-weight: 700;
   color: #64748b;
   letter-spacing: 0.8px;
-  margin-top: 3px;
+  margin-top: 2px;
   text-transform: uppercase;
 }
 
 .pin-close-icon {
-  font-size: 24px;
+  font-size: 22px;
   color: #374151;
   cursor: pointer;
   transition: transform 0.1s ease;
@@ -2158,8 +2141,8 @@
 
 .pin-account-bar {
   background: #ffffff;
-  padding: 8px 18px 12px;
-  font-size: 13.5px;
+  padding: 6px 16px 8px;
+  font-size: 13px;
   font-weight: 700;
   color: #1f2937;
   border-bottom: 1px solid #e5e7eb;
@@ -2168,10 +2151,10 @@
 
 /* Info card (Image 3) */
 .pin-info-card {
-  margin: 14px 16px 8px;
+  margin: 8px 14px 6px;
   background: #eceef6;
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2179,11 +2162,11 @@
 }
 
 .pin-info-card p {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   color: #1e293b;
   max-width: 250px;
-  line-height: 1.4;
+  line-height: 1.35;
   margin: 0;
 }
 
@@ -2202,25 +2185,25 @@
   flex: 1;
   min-height: 0;
   margin: 0;
-  padding: 10px 16px;
+  padding: 6px 16px;
 }
 
 .pin-enter-title {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .pin-circles-row {
   display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 
 .pin-circle-outline {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
   border: 1.8px solid #94a3b8;
   background: transparent;
@@ -2237,22 +2220,22 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 500;
   color: #92400e;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .pin-warning-msg .pin-warn-icon {
-  font-size: 16px;
+  font-size: 15px;
   color: #d97706;
 }
 
-/* NPCI Virtual Keypad (Docked to bottom edge of mobile screen) */
+/* NPCI Virtual Keypad (Docked cleanly above mobile bottom edge) */
 .pin-keypad-panel {
   background: #e2e5ef;
-  padding: 14px 12px max(24px, env(safe-area-inset-bottom, 24px));
-  border-radius: 28px 28px 0 0;
+  padding: 10px 10px max(10px, env(safe-area-inset-bottom, 10px));
+  border-radius: 24px 24px 0 0;
   width: 100%;
   box-sizing: border-box;
   margin-top: auto;
@@ -2262,7 +2245,7 @@
 .pin-key-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -2272,12 +2255,12 @@
   width: 100%;
   box-sizing: border-box;
   background: #ffffff;
-  border-radius: 28px;
-  height: 50px;
+  border-radius: 22px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   color: #0f172a;
   cursor: pointer;
@@ -2299,7 +2282,7 @@
 .pin-pill-key.key-check {
   background: #0f3885;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.3px;
 }
@@ -2308,28 +2291,28 @@
   background: #0b2c69;
 }
 
-@media (max-height: 720px) {
-  .pin-top-bar { padding: 10px 16px 8px; }
-  .pin-account-bar { padding: 6px 16px 10px; font-size: 12.5px; }
-  .pin-info-card { margin: 8px 14px 6px; padding: 10px 14px; }
-  .pin-info-card p { font-size: 13px; }
-  .pin-center-section { padding: 6px 14px; }
-  .pin-enter-title { font-size: 14px; margin-bottom: 14px; }
-  .pin-circles-row { margin-bottom: 14px; gap: 12px; }
-  .pin-circle-outline { width: 16px; height: 16px; }
-  .pin-keypad-panel { padding: 12px 12px max(16px, env(safe-area-inset-bottom, 16px)); }
-  .pin-key-grid { gap: 8px; }
-  .pin-pill-key { height: 44px; font-size: 20px; border-radius: 22px; }
-  .pin-pill-key.key-check { font-size: 15px; }
+@media (max-height: 680px) {
+  .pin-top-bar { padding: 8px 14px 4px; }
+  .pin-account-bar { padding: 4px 14px 6px; font-size: 12px; }
+  .pin-info-card { margin: 6px 12px 4px; padding: 8px 12px; }
+  .pin-info-card p { font-size: 12.5px; }
+  .pin-center-section { padding: 4px 12px; }
+  .pin-enter-title { font-size: 13.5px; margin-bottom: 8px; }
+  .pin-circles-row { margin-bottom: 8px; gap: 10px; }
+  .pin-circle-outline { width: 15px; height: 15px; }
+  .pin-keypad-panel { padding: 8px 8px max(8px, env(safe-area-inset-bottom, 8px)); }
+  .pin-key-grid { gap: 5px; }
+  .pin-pill-key { height: 38px; font-size: 18px; border-radius: 18px; }
+  .pin-pill-key.key-check { font-size: 14px; }
 }
 
 @media (max-height: 600px) {
-  .pin-info-card { margin: 6px 12px 4px; padding: 8px 12px; }
-  .pin-enter-title { margin-bottom: 10px; font-size: 13.5px; }
-  .pin-circles-row { margin-bottom: 10px; }
-  .pin-warning-msg { font-size: 11px; margin-top: 2px; }
-  .pin-pill-key { height: 38px; font-size: 18px; }
-  .pin-pill-key.key-check { font-size: 14px; }
+  .pin-info-card { margin: 4px 10px 2px; padding: 6px 10px; }
+  .pin-enter-title { margin-bottom: 6px; font-size: 13px; }
+  .pin-circles-row { margin-bottom: 6px; }
+  .pin-warning-msg { font-size: 10.5px; margin-top: 2px; }
+  .pin-pill-key { height: 34px; font-size: 16px; }
+  .pin-pill-key.key-check { font-size: 13px; }
 }
 
 /* ==========================================================================

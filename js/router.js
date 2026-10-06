@@ -92,7 +92,9 @@ class Router {
       pageEl.style.display = 'block';
     }
     pageEl.classList.add('active');
-    this.currentPage = page;
+    if (typeof updateAppHeight === 'function') {
+      updateAppHeight();
+    }
 
     // Toggle screen-locked mode for fixed 1-frame non-scrollable pages (scan, pay, check-balance)
     const fixedPages = ['scan', 'pay', 'check-balance'];

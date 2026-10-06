@@ -1,12 +1,22 @@
-/**
- * PhonePe Clone - Main Application
- */
+// Dynamic viewport height helper for perfect mobile edge-to-edge fitting
+function updateAppHeight() {
+  const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  document.documentElement.style.setProperty('--app-height', `${vh}px`);
+}
+window.addEventListener('resize', updateAppHeight);
+window.addEventListener('orientationchange', updateAppHeight);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', updateAppHeight);
+}
+updateAppHeight();
+
 class PhonePeApp {
   constructor() {
     this.init();
   }
 
   init() {
+    updateAppHeight();
     // Wait for DOM
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.setup());
@@ -16,6 +26,7 @@ class PhonePeApp {
   }
 
   setup() {
+    updateAppHeight();
     this.initTheme();
     this.bindNavigation();
     this.bindBackButtons();
