@@ -855,7 +855,7 @@
                 <div class="scanner-vignette-scrim"></div>
 
                 <!-- Smooth Pop Effect Scanner Box with Purple Lines -->
-                <div class="scanner-pop-box" id="scanner-active-box" title="Tap to simulate scan">
+                <div class="scanner-pop-box" id="scanner-active-box">
                     <!-- 4 Rounded Purple Corners -->
                     <div class="scanner-corner-purple top-left"></div>
                     <div class="scanner-corner-purple top-right"></div>
@@ -867,12 +867,6 @@
 
                     <!-- Scan matched momentary green flash -->
                     <div class="scanner-flash-indicator" id="scanner-flash-indicator"></div>
-                </div>
-
-                <!-- Live Guidance / Status Pill -->
-                <div class="scanner-guide-pill" id="scanner-status-pill">
-                    <span class="material-icons guide-icon">qr_code_scanner</span>
-                    <span id="scanner-guide-text">Align QR code inside frame</span>
                 </div>
 
                 <!-- Circular Actions: Upload QR & Torch -->
@@ -891,14 +885,6 @@
                         </div>
                         <span class="scanner-action-label">Torch</span>
                     </div>
-                </div>
-
-                <!-- Instant Auto-Detect Action Button -->
-                <div class="scanner-auto-action-wrap">
-                    <button type="button" class="scanner-auto-btn" id="btn-auto-detect-qr">
-                        <span class="material-icons">bolt</span>
-                        <span>Auto-Detect Payment QR</span>
-                    </button>
                 </div>
 
                 <!-- Bottom Watermark: BHIM UPI (Matching Image 1) -->
@@ -1040,10 +1026,10 @@
             <div class="pay-screen-body">
                 <!-- Recipient Card -->
                 <div class="payee-profile-card">
-                    <div class="payee-avatar-circle" id="pay-avatar-initial">RL</div>
+                    <div class="payee-avatar-circle" id="pay-avatar-initial">--</div>
                     <div class="payee-meta-info">
-                        <h3 class="payee-display-name" id="pay-recipient-name">Rahul Loyal</h3>
-                        <p class="payee-vpa-id" id="pay-recipient-upi">••••••9188@ptyes</p>
+                        <h3 class="payee-display-name" id="pay-recipient-name">Recipient</h3>
+                        <p class="payee-vpa-id" id="pay-recipient-upi"></p>
                     </div>
                 </div>
 
@@ -1051,10 +1037,10 @@
                 <div class="pay-amount-box-purple" id="pay-amount-box-wrap">
                     <div class="pay-amount-text-row">
                         <span class="pay-rupee-symbol">₹</span>
-                        <span class="pay-amount-value" id="pay-amount-display">1,555</span>
+                        <span class="pay-amount-value" id="pay-amount-display"></span>
                         <span class="pay-blinking-cursor"></span>
                     </div>
-                    <input type="hidden" id="pay-amount-input" value="1555">
+                    <input type="hidden" id="pay-amount-input" value="">
                 </div>
 
                 <!-- Add a Message Box (Image 2) -->
@@ -1066,41 +1052,41 @@
                 <div class="pay-proceed-btn-wrap">
                     <button id="btn-proceed-pay" class="btn-proceed-phonepe-purple">Proceed To Pay</button>
                 </div>
+            </div>
 
-                <!-- Integrated Numeric Keypad (Image 2) -->
-                <div class="phonepe-custom-numeric-keypad" id="phonepe-keypad">
-                    <!-- Top Toolbar Row -->
-                    <div class="keypad-toolbar-icons">
-                        <span class="material-icons">grid_view</span>
-                        <span class="material-icons">content_paste</span>
-                        <span class="material-icons">g_translate</span>
-                        <span class="material-icons">settings</span>
-                        <span class="material-icons">mic_off</span>
-                    </div>
-                    <!-- 4x4 Grid -->
-                    <div class="keypad-numeric-grid">
-                        <button type="button" class="k-num-btn" data-key="1">1</button>
-                        <button type="button" class="k-num-btn" data-key="2">2</button>
-                        <button type="button" class="k-num-btn" data-key="3">3</button>
-                        <button type="button" class="k-num-btn k-spec" data-key="-">-</button>
+            <!-- Integrated Numeric Keypad (Docked to bottom edge of mobile screen) -->
+            <div class="phonepe-custom-numeric-keypad" id="phonepe-keypad">
+                <!-- Top Toolbar Row -->
+                <div class="keypad-toolbar-icons">
+                    <span class="material-icons">grid_view</span>
+                    <span class="material-icons">content_paste</span>
+                    <span class="material-icons">g_translate</span>
+                    <span class="material-icons">settings</span>
+                    <span class="material-icons">mic_off</span>
+                </div>
+                <!-- 4x4 Grid -->
+                <div class="keypad-numeric-grid">
+                    <button type="button" class="k-num-btn" data-key="1">1</button>
+                    <button type="button" class="k-num-btn" data-key="2">2</button>
+                    <button type="button" class="k-num-btn" data-key="3">3</button>
+                    <button type="button" class="k-num-btn k-spec" data-key="-">-</button>
 
-                        <button type="button" class="k-num-btn" data-key="4">4</button>
-                        <button type="button" class="k-num-btn" data-key="5">5</button>
-                        <button type="button" class="k-num-btn" data-key="6">6</button>
-                        <button type="button" class="k-num-btn k-spec" data-key="space"><span class="material-icons">space_bar</span></button>
+                    <button type="button" class="k-num-btn" data-key="4">4</button>
+                    <button type="button" class="k-num-btn" data-key="5">5</button>
+                    <button type="button" class="k-num-btn" data-key="6">6</button>
+                    <button type="button" class="k-num-btn k-spec" data-key="space"><span class="material-icons">space_bar</span></button>
 
-                        <button type="button" class="k-num-btn" data-key="7">7</button>
-                        <button type="button" class="k-num-btn" data-key="8">8</button>
-                        <button type="button" class="k-num-btn" data-key="9">9</button>
-                        <button type="button" class="k-num-btn k-spec" data-key="backspace"><span class="material-icons">backspace</span></button>
+                    <button type="button" class="k-num-btn" data-key="7">7</button>
+                    <button type="button" class="k-num-btn" data-key="8">8</button>
+                    <button type="button" class="k-num-btn" data-key="9">9</button>
+                    <button type="button" class="k-num-btn k-spec" data-key="backspace"><span class="material-icons">backspace</span></button>
 
-                        <button type="button" class="k-num-btn k-spec" data-key=",">,</button>
-                        <button type="button" class="k-num-btn" data-key="0">0</button>
-                        <button type="button" class="k-num-btn k-spec" data-key=".">.</button>
-                        <button type="button" class="k-num-btn k-action-enter" data-key="proceed">
-                            <span class="material-icons">east</span>
-                        </button>
-                    </div>
+                    <button type="button" class="k-num-btn k-spec" data-key=",">,</button>
+                    <button type="button" class="k-num-btn" data-key="0">0</button>
+                    <button type="button" class="k-num-btn k-spec" data-key=".">.</button>
+                    <button type="button" class="k-num-btn k-action-enter" data-key="proceed">
+                        <span class="material-icons">east</span>
+                    </button>
                 </div>
             </div>
 

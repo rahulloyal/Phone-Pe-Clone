@@ -128,6 +128,43 @@ body {
   flex-direction: column;
 }
 
+/* Full-Frame Locked Non-Scrollable Viewport (QR Scanner, Pay Amount, UPI PIN Verify) */
+html.screen-locked,
+body.screen-locked {
+  height: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+#app-container.screen-locked {
+  height: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 540px) {
+  #app-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+
+html:has(#page-check-balance.active),
+body:has(#page-check-balance.active),
+body.check-balance-active {
+  background: #ffffff !important;
+}
+
 @media (min-width: 768px) {
   body {
     background: #08080a;
@@ -160,6 +197,17 @@ body {
 }
 .page.active {
   display: block;
+}
+#page-scan.active,
+#page-pay.active,
+#page-check-balance.active {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
 }
 .page.with-nav {
   padding-bottom: calc(var(--nav-height) + 24px) !important;

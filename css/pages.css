@@ -768,17 +768,7 @@
   border-radius: 2px;
 }
 
-/* 5. CHECK BALANCE / UPI PIN PAD SCREEN (Light theme matching screenshot) */
-#page-check-balance {
-  background: #f1f3f6;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: #1a1a1a;
-  position: relative;
-}
-/* (UPI PIN Pad styles consolidated in SECTION: CHECK BALANCE / UPI PIN PAD SCREEN) */
+/* 5. CHECK BALANCE / UPI PIN PAD SCREEN styles consolidated in dedicated section below */
 
 /* 6. PAYMENT FAILED SCREEN */
 #page-payment-failed {
@@ -1083,13 +1073,19 @@
 /* --------------------------------------------------------------------------
    SCREEN 1: QR SCANNER PAGE (Matching Image 1)
    -------------------------------------------------------------------------- */
-#page-scan {
+#page-scan.active {
   background: #000000;
   width: 100%;
-  height: 100vh;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
   position: relative;
-  overflow: hidden;
+  overflow: hidden !important;
   user-select: none;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box;
 }
 
 .scan-header-bar {
@@ -1377,118 +1373,36 @@
   }
 }
 
-/* Scanner Guidance Status Pill */
-.scanner-guide-pill {
-  position: absolute;
-  top: calc(40% - min(140px, 39vw) - 36px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(18, 18, 24, 0.78);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 20px;
-  padding: 6px 16px;
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 12.5px;
-  font-weight: 500;
-  z-index: 10;
-  pointer-events: none;
-  white-space: nowrap;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-}
 
-.scanner-guide-pill .guide-icon {
-  font-size: 16px;
-  color: #c084fc;
-  animation: pulse-guide-icon 1.6s ease-in-out infinite;
-}
-
-@keyframes pulse-guide-icon {
-  0%, 100% { opacity: 0.7; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.1); color: #22c55e; }
-}
-
-/* Auto-Detect Payment Button Wrap */
-.scanner-auto-action-wrap {
-  position: absolute;
-  top: calc(40% + min(140px, 39vw) + 118px);
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  z-index: 10;
-}
-
-.scanner-auto-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #673ab7, #7c3aed);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #ffffff;
-  padding: 10px 22px;
-  border-radius: 26px;
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 0.1px;
-  box-shadow: 0 4px 20px rgba(103, 58, 183, 0.45);
-  transition: transform 0.16s ease, background 0.2s ease, box-shadow 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.scanner-auto-btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 6px 24px rgba(103, 58, 183, 0.65);
-}
-
-.scanner-auto-btn:active {
-  transform: scale(0.95);
-}
-
-.scanner-auto-btn .material-icons {
-  font-size: 18px;
-  color: #facc15;
-}
-
-@media (max-height: 660px) {
-  .scanner-guide-pill {
-    top: calc(34% - 110px - 32px);
-    font-size: 11.5px;
-    padding: 5px 12px;
-  }
-  .scanner-auto-action-wrap {
-    top: calc(34% + 110px + 92px);
-  }
-  .scanner-auto-btn {
-    padding: 8px 18px;
-    font-size: 12.5px;
-  }
-}
 
 /* --------------------------------------------------------------------------
    SCREEN 2: PAY SCREEN WITH ON-SCREEN KEYPAD (Matching Image 2)
    -------------------------------------------------------------------------- */
-#page-pay {
+#page-pay.active {
   background: #000000;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
   color: #ffffff;
   user-select: none;
+  overflow: hidden !important;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .pay-top-nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 14px 18px;
   background: #000000;
   border-bottom: 1px solid #1a1a20;
+  flex-shrink: 0;
 }
 
 .pay-nav-back {
@@ -1512,9 +1426,12 @@
 
 .pay-screen-body {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: 16px 20px 0;
+  padding: 14px 16px 10px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Payee Card (Image 2) */
@@ -1525,31 +1442,34 @@
   background: #141418;
   border: 1px solid #23232c;
   border-radius: 14px;
-  padding: 14px 16px;
-  margin-bottom: 20px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .payee-avatar-circle {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #795548;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .payee-meta-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .payee-display-name {
-  font-size: 16px;
+  font-size: 15.5px;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 2px;
@@ -1566,12 +1486,13 @@
   background: #121217;
   border: 2px solid #a855f7;
   border-radius: 12px;
-  padding: 16px 18px;
-  margin-bottom: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   box-shadow: 0 0 18px rgba(168, 85, 247, 0.18);
-  min-height: 68px;
+  min-height: 60px;
+  flex-shrink: 0;
 }
 
 .pay-amount-text-row {
@@ -1581,14 +1502,14 @@
 }
 
 .pay-rupee-symbol {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
   color: #ffffff;
   margin-right: 8px;
 }
 
 .pay-amount-value {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.5px;
@@ -1597,7 +1518,7 @@
 .pay-blinking-cursor {
   display: inline-block;
   width: 2.5px;
-  height: 32px;
+  height: 28px;
   background: #38bdf8;
   margin-left: 4px;
   border-radius: 1px;
@@ -1609,8 +1530,9 @@
   background: #121217;
   border: 1px solid #272730;
   border-radius: 12px;
-  padding: 14px 18px;
-  margin-bottom: 24px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .pay-message-field {
@@ -1619,7 +1541,7 @@
   border: none;
   outline: none;
   color: #ffffff;
-  font-size: 14.5px;
+  font-size: 14px;
 }
 
 .pay-message-field::placeholder {
@@ -1629,7 +1551,9 @@
 /* Proceed to Pay Purple Button (Image 2) */
 .pay-proceed-btn-wrap {
   margin-top: auto;
-  margin-bottom: 12px;
+  margin-bottom: 0;
+  flex-shrink: 0;
+  width: 100%;
 }
 
 .btn-proceed-phonepe-purple {
@@ -1637,8 +1561,8 @@
   background: #7c3aed;
   color: #ffffff;
   border: none;
-  border-radius: 8px;
-  padding: 15px;
+  border-radius: 10px;
+  padding: 14px;
   font-size: 15.5px;
   font-weight: 700;
   letter-spacing: 0.2px;
@@ -1652,19 +1576,22 @@
   background: #6d28d9;
 }
 
-/* Integrated Custom PhonePe Keypad (Image 2) */
+/* Integrated Custom PhonePe Keypad (Docked to bottom edge of mobile screen) */
 .phonepe-custom-numeric-keypad {
   background: #17181d;
-  margin: 0 -20px;
-  padding: 10px 14px 20px;
+  margin: 0;
+  padding: 6px 10px max(16px, env(safe-area-inset-bottom, 16px));
   border-top: 1px solid #23232c;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .keypad-toolbar-icons {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 14px 12px;
+  padding: 4px 8px 8px;
   color: #9ca3af;
 }
 
@@ -1676,18 +1603,22 @@
 .keypad-numeric-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .k-num-btn {
+  width: 100%;
+  box-sizing: border-box;
   background: #25262e;
   border: none;
-  border-radius: 18px;
-  height: 52px;
+  border-radius: 14px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 600;
   color: #ffffff;
   cursor: pointer;
@@ -1716,6 +1647,30 @@
 
 .k-num-btn.k-action-enter:active {
   background: #2563eb;
+}
+
+@media (max-height: 720px) {
+  .pay-top-nav-bar { padding: 10px 16px; }
+  .pay-screen-body { padding: 10px 14px 8px; }
+  .payee-profile-card { padding: 8px 12px; margin-bottom: 8px; border-radius: 10px; }
+  .payee-avatar-circle { width: 38px; height: 38px; font-size: 15px; }
+  .pay-amount-box-purple { padding: 10px 14px; min-height: 52px; margin-bottom: 8px; }
+  .pay-amount-value { font-size: 26px; }
+  .pay-rupee-symbol { font-size: 24px; }
+  .pay-message-container { padding: 8px 14px; margin-bottom: 8px; }
+  .btn-proceed-phonepe-purple { padding: 12px; font-size: 14.5px; }
+  .phonepe-custom-numeric-keypad { padding: 6px 10px max(12px, env(safe-area-inset-bottom, 12px)); }
+  .k-num-btn { height: 42px; font-size: 19px; border-radius: 12px; }
+  .keypad-numeric-grid { gap: 6px; }
+  .keypad-toolbar-icons { padding: 2px 8px 6px; }
+}
+
+@media (max-height: 600px) {
+  .payee-profile-card { margin-bottom: 6px; padding: 6px 10px; }
+  .pay-amount-box-purple { margin-bottom: 6px; min-height: 44px; }
+  .pay-message-container { display: none; }
+  .k-num-btn { height: 36px; font-size: 17px; }
+  .btn-proceed-phonepe-purple { padding: 10px; font-size: 14px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -2105,43 +2060,41 @@
   color: #a1a1aa;
 }
 
-/* --------------------------------------------------------------------------
-   SCREEN 4: NPCI UPI PIN PAD SCREEN (Matching Image 4 - LIGHT THEME)
-   -------------------------------------------------------------------------- */
-#page-check-balance {
-  background: #f4f5f8;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  user-select: none;
-}
-
 /* ==========================================================================
-   SCREEN: CHECK BALANCE / UPI PIN PAD SCREEN (Matching Image 3)
+   SCREEN: CHECK BALANCE / UPI PIN PAD SCREEN (Matching Image 3 & 4)
    ========================================================================== */
-#page-check-balance {
+#page-check-balance.active {
   background: #ffffff !important;
   color: #1e293b !important;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
   user-select: none;
+  overflow: hidden !important;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .pin-screen-top-area {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .pin-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px 10px;
+  padding: 14px 18px 10px;
   background: #ffffff;
+  flex-shrink: 0;
 }
 
 .pin-upi-branding {
@@ -2205,26 +2158,28 @@
 
 .pin-account-bar {
   background: #ffffff;
-  padding: 10px 20px 14px;
+  padding: 8px 18px 12px;
   font-size: 13.5px;
   font-weight: 700;
   color: #1f2937;
   border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
 }
 
 /* Info card (Image 3) */
 .pin-info-card {
-  margin: 16px 18px 20px;
+  margin: 14px 16px 8px;
   background: #eceef6;
   border-radius: 12px;
-  padding: 14px 18px;
+  padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .pin-info-card p {
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 600;
   color: #1e293b;
   max-width: 250px;
@@ -2243,21 +2198,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 30px 0 20px;
-  flex-grow: 1;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 10px 16px;
 }
 
 .pin-enter-title {
-  font-size: 15.5px;
+  font-size: 15px;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .pin-circles-row {
   display: flex;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .pin-circle-outline {
@@ -2282,7 +2240,7 @@
   font-size: 12.5px;
   font-weight: 500;
   color: #92400e;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .pin-warning-msg .pin-warn-icon {
@@ -2290,32 +2248,37 @@
   color: #d97706;
 }
 
-/* NPCI Virtual Keypad (Image 3) */
+/* NPCI Virtual Keypad (Docked to bottom edge of mobile screen) */
 .pin-keypad-panel {
   background: #e2e5ef;
-  padding: 16px 14px 28px;
+  padding: 14px 12px max(24px, env(safe-area-inset-bottom, 24px));
   border-radius: 28px 28px 0 0;
   width: 100%;
   box-sizing: border-box;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .pin-key-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  max-width: 360px;
-  margin: 0 auto;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .pin-pill-key {
+  width: 100%;
+  box-sizing: border-box;
   background: #ffffff;
   border-radius: 28px;
-  height: 52px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   color: #0f172a;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -2338,10 +2301,35 @@
   color: #ffffff;
   font-size: 16px;
   font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 .pin-pill-key.key-check:active {
   background: #0b2c69;
+}
+
+@media (max-height: 720px) {
+  .pin-top-bar { padding: 10px 16px 8px; }
+  .pin-account-bar { padding: 6px 16px 10px; font-size: 12.5px; }
+  .pin-info-card { margin: 8px 14px 6px; padding: 10px 14px; }
+  .pin-info-card p { font-size: 13px; }
+  .pin-center-section { padding: 6px 14px; }
+  .pin-enter-title { font-size: 14px; margin-bottom: 14px; }
+  .pin-circles-row { margin-bottom: 14px; gap: 12px; }
+  .pin-circle-outline { width: 16px; height: 16px; }
+  .pin-keypad-panel { padding: 12px 12px max(16px, env(safe-area-inset-bottom, 16px)); }
+  .pin-key-grid { gap: 8px; }
+  .pin-pill-key { height: 44px; font-size: 20px; border-radius: 22px; }
+  .pin-pill-key.key-check { font-size: 15px; }
+}
+
+@media (max-height: 600px) {
+  .pin-info-card { margin: 6px 12px 4px; padding: 8px 12px; }
+  .pin-enter-title { margin-bottom: 10px; font-size: 13.5px; }
+  .pin-circles-row { margin-bottom: 10px; }
+  .pin-warning-msg { font-size: 11px; margin-top: 2px; }
+  .pin-pill-key { height: 38px; font-size: 18px; }
+  .pin-pill-key.key-check { font-size: 14px; }
 }
 
 /* ==========================================================================

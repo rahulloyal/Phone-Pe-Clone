@@ -4,10 +4,10 @@
  */
 class PaymentFlow {
   constructor() {
-    this.currentAmount = '1555';
+    this.currentAmount = '';
     this.currentPayee = {
-      name: 'Rahul Loyal',
-      upi: '••••••9188@ptyes'
+      name: '',
+      upi: ''
     };
     this.currentBank = 'shgb';
     this.pin = '';
@@ -27,9 +27,9 @@ class PaymentFlow {
   // 1. PAY SCREEN (Matching Image 2)
   // =========================================================================
   setupPayPage(params) {
-    this.currentPayee.name = params.name || 'Rahul Loyal';
-    this.currentPayee.upi = params.upi || '••••••9188@ptyes';
-    this.currentAmount = (params.amount ? String(params.amount) : '1555').replace(/[^0-9]/g, '') || '1555';
+    this.currentPayee.name = params.name || 'Verified Merchant';
+    this.currentPayee.upi = params.upi || '';
+    this.currentAmount = (params.amount ? String(params.amount) : '').replace(/[^0-9]/g, '');
 
     // Update Payee Card Details
     const nameEl = document.getElementById('pay-recipient-name');
@@ -39,10 +39,10 @@ class PaymentFlow {
     if (nameEl) nameEl.textContent = this.currentPayee.name;
     if (upiEl) upiEl.textContent = this.currentPayee.upi;
     if (avatarEl) {
-      const words = this.currentPayee.name.trim().split(/\s+/);
+      const words = (this.currentPayee.name || 'Payee').trim().split(/\s+/);
       const initials = words.length >= 2 
         ? (words[0][0] + words[1][0]).toUpperCase() 
-        : (words[0] ? words[0].slice(0, 2).toUpperCase() : 'RL');
+        : (words[0] ? words[0].slice(0, 2).toUpperCase() : 'VP');
       avatarEl.textContent = initials;
     }
 
@@ -76,8 +76,9 @@ class PaymentFlow {
 
   handleKeypadInput(key) {
     if (key === 'backspace') {
-      this.currentAmount = this.currentAmount.slice(0, -1);
-      if (!this.currentAmount) this.currentAmount = '0';
+      if (this.currentAmount.length > 0) {
+        this.currentAmount = this.currentAmount.slice(0, -1);
+      }
     } else if (key === 'proceed') {
       this.openBankSheet();
       return;
@@ -85,9 +86,10 @@ class PaymentFlow {
       // Optional separator / ignore
       return;
     } else if (/^[0-9]$/.test(key)) {
-      if (this.currentAmount === '0') {
-        this.currentAmount = key;
-      } else if (this.currentAmount.length < 8) {
+      if (!this.currentAmount && key === '0') {
+        return;
+      }
+      if (this.currentAmount.length < 8) {
         this.currentAmount += key;
       }
     }
@@ -119,18 +121,26 @@ class PaymentFlow {
   updateAmountDisplay() {
     const displayEl = document.getElementById('pay-amount-display');
     const inputHidden = document.getElementById('pay-amount-input');
-    const num = parseInt(this.currentAmount, 10) || 0;
-    const formatted = num > 0 ? num.toLocaleString('en-IN') : '0';
-
-    if (displayEl) displayEl.textContent = formatted;
-    if (inputHidden) inputHidden.value = num;
+    if (!this.currentAmount) {
+      if (displayEl) displayEl.textContent = '';
+      if (inputHidden) inputHidden.value = '';
+    } else {
+      const num = parseInt(this.currentAmount, 10);
+      const formatted = !isNaN(num) ? num.toLocaleString('en-IN') : this.currentAmount;
+      if (displayEl) displayEl.textContent = formatted;
+      if (inputHidden) inputHidden.value = this.currentAmount;
+    }
   }
 
   // =========================================================================
   // 2. BANK SELECTION BOTTOM SHEET (Matching Image 3)
   // =========================================================================
   openBankSheet() {
-    const num = parseInt(this.currentAmount, 10) || 1555;
+    const num = parseInt(this.currentAmount, 10);
+    if (!num || num <= 0) {
+      if (window.appInst) window.appInst.showToast("Please enter an amount");
+      return;
+    }
     const formattedAmt = '₹' + num.toLocaleString('en-IN');
 
     const sheet = document.getElementById('modal-bank-sheet');
@@ -174,9 +184,9 @@ class PaymentFlow {
   // =========================================================================
   setupUpiPin(params) {
     const mode = params.mode || 'balance';
-    const amount = parseInt(params.amount, 10) || parseInt(this.currentAmount, 10) || 1555;
-    const payeeName = params.name || this.currentPayee.name || 'Rahul Loyal';
-    const payeeUpi = params.upi || this.currentPayee.upi || '••••••9188@ptyes';
+    const amount = parseInt(params.amount, 10) || parseInt(this.currentAmount, 10) || 0;
+    const payeeName = params.name || this.currentPayee.name || 'Verified Merchant';
+    const payeeUpi = params.upi || this.currentPayee.upi || '';
     const bankId = params.bankId || 'shgb';
 
     this.pin = '';

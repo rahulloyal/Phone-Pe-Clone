@@ -21,10 +21,10 @@ class QRScanner {
     this.demoIndex = 0;
     
     this.demoQRs = [
-      { name: 'Rahul Loyal', upi: '••••••9188@ptyes', amount: '1555', provider: 'PhonePe' },
-      { name: 'Rahul Loyal', upi: '9876549188@paytm', amount: '1555', provider: 'Paytm' },
-      { name: 'Rahul Loyal', upi: 'rahulloyal@okaxis', amount: '1555', provider: 'Google Pay' },
-      { name: 'Rahul Loyal', upi: 'rahulloyal@upi', amount: '1555', provider: 'BHIM UPI' }
+      { name: 'Verified Merchant', upi: 'merchant@upi', amount: '', provider: 'PhonePe' },
+      { name: 'Verified Merchant', upi: 'merchant@paytm', amount: '', provider: 'Paytm' },
+      { name: 'Verified Merchant', upi: 'merchant@okaxis', amount: '', provider: 'Google Pay' },
+      { name: 'Verified Merchant', upi: 'merchant@upi', amount: '', provider: 'BHIM UPI' }
     ];
 
     this.initBarcodeDetector();
@@ -50,10 +50,8 @@ class QRScanner {
       if (page === 'scan') {
         this.setupScanPage();
         this.startCamera();
-        this.startAutoDetectionTimer();
       } else {
         this.stopCamera();
-        this.clearAutoDetectionTimer();
       }
     });
   }
@@ -64,9 +62,6 @@ class QRScanner {
     if (this.canvas) {
       this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
     }
-
-    // Reset status pill
-    this.updateStatusPill("Align QR code inside frame", "qr_code_scanner");
 
     // Torch Button
     const torchBtn = document.getElementById('btn-torch');
@@ -81,56 +76,10 @@ class QRScanner {
       galleryBtn.onclick = () => fileInput.click();
       fileInput.onchange = (e) => this.handleGalleryUpload(e);
     }
-
-    // Interactive Tap on Scanner Box to Trigger Instant Detection
-    const activeBox = document.getElementById('scanner-active-box');
-    if (activeBox) {
-      activeBox.onclick = () => {
-        this.clearAutoDetectionTimer();
-        const item = this.demoQRs[this.demoIndex % this.demoQRs.length];
-        this.demoIndex++;
-        this.triggerSuccessfulScan(item);
-      };
-    }
-
-    // Dedicated Auto-Detect Button
-    const autoBtn = document.getElementById('btn-auto-detect-qr');
-    if (autoBtn) {
-      autoBtn.onclick = (e) => {
-        e.stopPropagation();
-        this.clearAutoDetectionTimer();
-        const item = this.demoQRs[this.demoIndex % this.demoQRs.length];
-        this.demoIndex++;
-        this.triggerSuccessfulScan(item);
-      };
-    }
   }
 
   updateStatusPill(text, icon = "qr_code_scanner") {
-    const textEl = document.getElementById('scanner-guide-text');
-    const iconEl = document.querySelector('#scanner-status-pill .guide-icon');
-    if (textEl) textEl.textContent = text;
-    if (iconEl && icon) iconEl.textContent = icon;
-  }
-
-  // Auto-detection timer: if camera has no physical QR or on simulation, auto-detects in 1.8s
-  startAutoDetectionTimer() {
-    this.clearAutoDetectionTimer();
-    this.autoTimerId = setTimeout(() => {
-      // Only fire if still on scan page and hasn't scanned yet
-      if (router.currentPage === 'scan') {
-        const item = this.demoQRs[this.demoIndex % this.demoQRs.length];
-        this.demoIndex++;
-        this.triggerSuccessfulScan(item);
-      }
-    }, 1800);
-  }
-
-  clearAutoDetectionTimer() {
-    if (this.autoTimerId) {
-      clearTimeout(this.autoTimerId);
-      this.autoTimerId = null;
-    }
+    // Guidance messages upon scanner removed per user instruction
   }
 
   async startCamera() {
@@ -185,7 +134,6 @@ class QRScanner {
         console.warn("Video play error:", playErr);
       }
       this.scanning = true;
-      this.updateStatusPill("Scanning for payment QR...", "center_focus_strong");
       this.animFrameId = requestAnimationFrame(() => this.scanLoop());
     } else {
       this.handleCameraUnavailable();
@@ -193,12 +141,11 @@ class QRScanner {
   }
 
   handleCameraUnavailable() {
-    this.updateStatusPill("Camera inactive • Auto-detecting QR...", "bolt");
+    console.warn("Camera inactive or permission not granted");
   }
 
   stopCamera() {
     this.scanning = false;
-    this.clearAutoDetectionTimer();
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
       this.animFrameId = null;
@@ -240,7 +187,6 @@ class QRScanner {
 
       // 3. Handle successful detection
       if (detectedText) {
-        this.clearAutoDetectionTimer();
         this.handleScan(detectedText);
         return;
       }
@@ -312,7 +258,7 @@ class QRScanner {
   // =========================================================================
   parsePaymentQR(rawData) {
     if (!rawData || typeof rawData !== 'string') {
-      return { name: 'Rahul Loyal', upi: '••••••9188@ptyes', amount: '1555', provider: 'PhonePe', raw: '' };
+      return { name: 'Verified Merchant', upi: 'merchant@upi', amount: '', provider: 'UPI', raw: '' };
     }
     const str = rawData.trim();
 
@@ -346,7 +292,7 @@ class QRScanner {
       am = params.get('am') || '';
     }
 
-    // 2. Search for standalone UPI ID (e.g. rahul@okaxis or 9876549188@paytm)
+    // 2. Search for standalone UPI ID (e.g. user@okaxis or 9876549188@paytm)
     if (!pa) {
       const upiRegex = /([a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64})/i;
       const match = str.match(upiRegex);
@@ -380,10 +326,29 @@ class QRScanner {
       }
     }
 
-    // Fallbacks matching PhonePe UI requirements
-    if (!pn) pn = 'Rahul Loyal';
-    if (!pa) pa = '••••••9188@ptyes';
-    if (!am) am = '1555';
+    // General fallbacks if not standard UPI URL
+    if (!pn && !pa) {
+      if (str.startsWith('http')) {
+        try {
+          const u = new URL(str);
+          pn = u.hostname.replace('www.', '');
+          pa = u.hostname;
+        } catch(e) {
+          pn = 'Verified Merchant';
+          pa = 'merchant@upi';
+        }
+      } else {
+        pn = str.length > 20 ? str.slice(0, 20) + '...' : str;
+        pa = 'merchant@upi';
+      }
+    } else if (!pn) {
+      pn = 'Verified Merchant';
+    } else if (!pa) {
+      pa = 'merchant@upi';
+    }
+
+    // Default amount must be empty so user enters it
+    if (!am) am = '';
 
     // 3. Identify Payment App / Bank Provider
     const lowerPa = pa.toLowerCase();
@@ -439,21 +404,18 @@ class QRScanner {
   }
 
   handleScan(data) {
-    this.clearAutoDetectionTimer();
     this.stopCamera();
     const payeeData = this.parsePaymentQR(data);
     this.triggerSuccessfulScan(payeeData);
   }
 
   triggerSuccessfulScan(payeeData) {
-    this.clearAutoDetectionTimer();
     this.stopCamera();
     this.playScanBeep();
 
     // Visual feedback on scanner
     const flash = document.getElementById('scanner-flash-indicator');
     if (flash) flash.classList.add('active');
-    this.updateStatusPill(`Verified: ${payeeData.name}`, "check_circle");
 
     if (window.appInst) {
       window.appInst.vibrate();
@@ -531,12 +493,9 @@ class QRScanner {
           }
         }
 
-        // Fallback simulation if image QR wasn't decoded
         if (window.appInst) {
-          window.appInst.showToast("QR read from image: Rahul Loyal");
+          window.appInst.showToast("No valid QR code found in image");
         }
-        const item = this.demoQRs[this.demoIndex % this.demoQRs.length];
-        this.triggerSuccessfulScan(item);
       };
       img.src = event.target.result;
     };

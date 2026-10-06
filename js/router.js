@@ -12,13 +12,24 @@ class Router {
 
   init() {
     window.addEventListener('hashchange', () => this.handleRoute());
-    window.addEventListener('DOMContentLoaded', () => {
+    const onReady = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryPage = urlParams.get('page');
+      if (queryPage) {
+        this.navigate(queryPage, true);
+        return;
+      }
       if (!window.location.hash || window.location.hash === '#login') {
         window.location.hash = '#home';
       } else {
         this.handleRoute();
       }
-    });
+    };
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', onReady);
+    } else {
+      onReady();
+    }
   }
 
   handleRoute() {
@@ -74,10 +85,25 @@ class Router {
       p.style.display = 'none';
     });
 
-    // Show target
-    pageEl.style.display = 'block';
-    requestAnimationFrame(() => pageEl.classList.add('active'));
+    // Show target: use flex for fixed-frame screens, remove inline style or block for standard pages
+    if (page === 'pay' || page === 'check-balance' || page === 'scan') {
+      pageEl.style.display = 'flex';
+    } else {
+      pageEl.style.display = 'block';
+    }
+    pageEl.classList.add('active');
     this.currentPage = page;
+
+    // Toggle screen-locked mode for fixed 1-frame non-scrollable pages (scan, pay, check-balance)
+    const fixedPages = ['scan', 'pay', 'check-balance'];
+    const isFixed = fixedPages.includes(page);
+    document.documentElement.classList.toggle('screen-locked', isFixed);
+    document.body.classList.toggle('screen-locked', isFixed);
+    document.body.classList.toggle('check-balance-active', page === 'check-balance');
+    const container = document.getElementById('app-container');
+    if (container) {
+      container.classList.toggle('screen-locked', isFixed);
+    }
 
     // Update bottom nav
     this.updateNav(page);
