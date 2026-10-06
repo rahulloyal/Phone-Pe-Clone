@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>PhonePe Clone</title>
+
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons & Outlined -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    
+    <!-- Font Awesome 6.4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- jsQR CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    
+    <!-- QRCode CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div id="app-container">
+        <!-- Audio for PhonePe Payment Verification -->
+        <audio id="phonepe-audio-player" src="Assets/phone_pe_notification.mp3" preload="auto"></audio>
+        
+        <!-- 1. SPLASH SCREEN -->
+        <div id="page-splash" class="page">
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <circle cx="50" cy="50" r="48" fill="#5f259f" />
+                    <text x="50" y="65" font-family="'Inter', sans-serif" font-weight="800" font-size="44" fill="#ffffff" text-anchor="middle">पे</text>
+                </svg>
+                <div style="margin-top:24px; width:28px; height:28px; border:3px solid #ffffff40; border-top-color:#ffffff; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
+            </div>
+            <div style="text-align:center; padding-bottom:30px; font-size:12px; color:#ffffffaa;">
+                Made in India with ❤️
+            </div>
+        </div>
+
+        <!-- 2. LOGIN PAGE (BYPASSED) -->
+        <div id="page-login" class="page"></div>
+
+        <!-- 3. HOME PAGE -->
+        <div id="page-home" class="page with-nav active">
+            <div class="home-content">
+                <!-- a) Gold Banner Hero (Purple UI directly at top) -->
+                <!-- a) Gold Banner Hero (PhonePe Style with Curved Violet Waves & Bright 24K Gold Coins) -->
+                <div class="gold-banner-hero">
+                    <!-- Dynamic Animated Curved Purple Waves (Matching Image 2) -->
+                    <div class="gold-banner-bg-waves" aria-hidden="true">
+                        <div class="purple-ambient-aura"></div>
+                        <svg class="purple-curved-mesh" viewBox="0 0 440 260" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="purpleArcGrad1" x1="100%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#8b2cd6" stop-opacity="0.95"/>
+                                    <stop offset="45%" stop-color="#6d18af" stop-opacity="0.65"/>
+                                    <stop offset="100%" stop-color="#2d0554" stop-opacity="0"/>
+                                </linearGradient>
+                                <linearGradient id="purpleArcGrad2" x1="10%" y1="0%" x2="90%" y2="100%">
+                                    <stop offset="0%" stop-color="#550f8c" stop-opacity="0.75"/>
+                                    <stop offset="60%" stop-color="#7c1ec9" stop-opacity="0.45"/>
+                                    <stop offset="100%" stop-color="#1e0239" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path class="purple-wave-path-1" d="M190,0 C270,25 375,70 440,155 L440,0 Z" fill="url(#purpleArcGrad1)"/>
+                            <path class="purple-wave-path-2" d="M130,0 C220,40 330,105 440,240 L440,0 Z" fill="url(#purpleArcGrad2)"/>
+                        </svg>
+                    </div>
+
+                    <!-- Top Profile Button (Offset for Mobile Notification / Status Bar) -->
+                    <div class="home-profile-top-btn" onclick="router.navigate('profile')" title="View Profile">
+                        <div class="profile-icon-wrapper">
+                            <div class="profile-avatar phonepe-avatar-gold">
+                                <div class="avatar-inner-dot"></div>
+                            </div>
+                            <div class="qr-badge">
+                                <span class="material-icons">qr_code</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Top Help Button (Offset for Mobile Notification / Status Bar) -->
+                    <div class="home-help-top-btn" onclick="appInst.openHelpModal()" title="Help &amp; Support">
+                        <div class="phonepe-help-circle">?</div>
+                    </div>
+
+                    <!-- Gold Coins Wrapper -->
+                    <div class="gold-coins-hero-wrap" id="goldCoinsHeroWrap" onclick="appInst.handleGoldCoinsClick()" title="24K Gold Savings">
+                        <!-- SVG Color & Shine Definitions for Bright Yellow 24K Gold -->
+                        <svg class="gold-coins-defs-svg" aria-hidden="true" style="position:absolute; width:0; height:0; overflow:hidden;" viewBox="0 0 100 100">
+                            <defs>
+                                <!-- Golden Rim Bevel Gradient (Bright Yellow Gold) -->
+                                <linearGradient id="phonepeGoldRim" x1="15%" y1="10%" x2="85%" y2="90%">
+                                    <stop offset="0%" stop-color="#fff8cc"/>
+                                    <stop offset="28%" stop-color="#fed72a"/>
+                                    <stop offset="68%" stop-color="#f59e0b"/>
+                                    <stop offset="100%" stop-color="#ca8a04"/>
+                                </linearGradient>
+
+                                <!-- Bright Gold Face with Diagonal Specular Shine (Matching Image 2) -->
+                                <linearGradient id="phonepeGoldFace" x1="15%" y1="15%" x2="85%" y2="85%">
+                                    <stop offset="0%" stop-color="#ffea79"/>
+                                    <stop offset="24%" stop-color="#fed72a"/>
+                                    <stop offset="42%" stop-color="#fffde8"/>
+                                    <stop offset="56%" stop-color="#ffd530"/>
+                                    <stop offset="85%" stop-color="#f59e0b"/>
+                                    <stop offset="100%" stop-color="#d97706"/>
+                                </linearGradient>
+
+                                <!-- Center Hero Coin Face with Bright Specular Highlight -->
+                                <linearGradient id="phonepeGoldFaceCenter" x1="15%" y1="15%" x2="85%" y2="85%">
+                                    <stop offset="0%" stop-color="#fff3a8"/>
+                                    <stop offset="24%" stop-color="#fed72a"/>
+                                    <stop offset="44%" stop-color="#fffef2"/>
+                                    <stop offset="58%" stop-color="#ffd530"/>
+                                    <stop offset="85%" stop-color="#f59e0b"/>
+                                    <stop offset="100%" stop-color="#d97706"/>
+                                </linearGradient>
+
+                                <!-- Specular Highlight Arc -->
+                                <linearGradient id="specularArcGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
+                                    <stop offset="50%" stop-color="#fffde8" stop-opacity="0.25"/>
+                                    <stop offset="100%" stop-color="#fed72a" stop-opacity="0"/>
+                                </linearGradient>
+
+                                <!-- Concentric Ridge Groove Gradient -->
+                                <linearGradient id="phonepeGrooveGrad" x1="10%" y1="10%" x2="90%" y2="90%">
+                                    <stop offset="0%" stop-color="#ca8a04" stop-opacity="0.75"/>
+                                    <stop offset="50%" stop-color="#fff9d6" stop-opacity="0.9"/>
+                                    <stop offset="100%" stop-color="#ca8a04" stop-opacity="0.8"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+
+                        <!-- Soft Golden Halo Behind Stack -->
+                        <div class="gold-coins-glow"></div>
+
+                        <!-- 7 Fully Rounded Coins Stack (No Cut-off, No Box Sheen Bleed) -->
+                        <div class="gold-coins-stack open-animated" id="goldCoinsStack">
+                            <!-- Coin L3 (Far Left - Complete Round Coin) -->
+                            <div class="hero-coin coin-l3" data-coin="l3">
+                                <div class="coin-float-wrap">
+                                    <svg class="coin-svg" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="49" fill="url(#phonepeGoldRim)"/>
+                                        <circle cx="50" cy="50" r="48.5" fill="none" stroke="#ca8a04" stroke-width="0.8" opacity="0.6"/>
+                                        <circle cx="50" cy="50" r="44" fill="url(#phonepeGoldFace)"/>
+                                        <path d="M 22 42 A 32 32 0 0 1 78 42 A 32 24 0 0 0 22 42" fill="url(#specularArcGrad)" opacity="0.4"/>
+                                        <circle cx="50" cy="50" r="39" fill="none" stroke="url(#phonepeGrooveGrad)" stroke-width="1.2"/>
+                                        <circle cx="50" cy="50" r="38" fill="none" stroke="#fffde8" stroke-width="0.7" opacity="0.65"/>
+                                    </svg>
+                                    <div class="coin-internal-gleam"></div>
+                                </div>
+                            </div>
+
+                            <!-- Coin L2 (Mid Left - Complete Round Coin) -->
+                            <div class="hero-coin coin-l2" data-coin="l2">
+                                <div class="coin-float-wrap">
+                                    <svg class="coin-svg" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="49" fill="url(#phonepeGoldRim)"/>
+                                        <circle cx="50" cy="50" r="48.5" fill="none" stroke="#ca8a04" stroke-width="0.8" opacity="0.6"/>
+                                        <circle cx="50" cy="50" r="44" fill="url(#phonepeGoldFace)"/>
+                                        <path d="M 22 42 A 32 32 0 0 1 78 42 A 32 24 0 0 0 22 42" fill="url(#specularArcGrad)" opacity="0.4"/>
+                                        <circle cx="50" cy="50" r="39" fill="none" stroke="url(#phonepeGrooveGrad)" stroke-width="1.2"/>
+                                        <circle cx="50" cy="50" r="38" fill="none" stroke="#fffde8" stroke-width="0.7" opacity="0.65"/>
+                                    </svg>
+                                    <div class="coin-internal-gleam"></div>
+                                </div>
+                            </div>
+
+                            <!-- Coin L1 (Near Left - Complete Round Coin) -->
+                            <div class="hero-coin coin-l1" data-coin="l1">
+                                <div class="coin-float-wrap">
+                                    <svg class="coin-svg" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="49" fill="url(#phonepeGoldRim)"/>
+                                        <circle cx="50" cy="50" r="48.5" fill="none" stroke="#ca8a04" stroke-width="0.8" opacity="0.6"/>
+                                        <circle cx="50" cy="50" r="44" fill="url(#phonepeGoldFace)"/>
+                                        <path d="M 22 42 A 32 32 0 0 1 78 42 A 32 24 0 0 0 22 42" fill="url(#specularArcGrad)" opacity="0.4"/>
+                                        <circle cx="50" cy="50" r="39" fill="none" stroke="url(#phonepeGrooveGrad)" stroke-width="1.2"/>
+                                        <circle cx="50" cy="50" r="38" fill="none" stroke="#fffde8" stroke-width="0.7" opacity="0.65"/>
+                                    </svg>
+                                    <div class="coin-internal-gleam"></div>
+                                </div>
+                            </div>
+
+                            <!-- Coin Center (24K Gold Hero Coin - Matching Image 2) -->
+                            <div class="hero-coin coin-center" data-coin="center">
+                                <div class="coin-float-wrap">
+                                    <svg class="coin-svg" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="49" fill="url(#phonepeGoldRim)"/>
+                                        <circle cx="50" cy="50" r="48.5" fill="none" stroke="#ca8a04" stroke-width="0.8" opacity="0.6"/>
+                                        <circle cx="50" cy="50" r="44" fill="url(#phonepeGoldFaceCenter)"/>
+                                        <path d="M 22 42 A 32 32 0 0 1 78 42 A 32 24 0 0 0 22 42" fill="url(#specularArcGrad)" opacity="0.45"/>
+                                        <circle cx="50" cy="50" r="39" fill="none" stroke="url(#phonepeGrooveGrad)" stroke-width="1.3"/>
+                                        <circle cx="50" cy="50" r="38" fill="none" stroke="#fffde8" stroke-width="0.75" opacity="0.7"/>
+                                        <text x="50" y="47" class="coin-svg-text-24k" text-anchor="middle">24K</text>
+                                        <text x="50" y="65" class="coin-svg-text-gold" text-anchor="middle">Gold</text>
+                                    </svg>
+                                    <div class="coin-internal-gleam"></div>
+                                </div>
+                            </div>
+
+                            <!-- Coin R1 (Near Right - Complete Round Coin) -->
+                            <div class="hero-coin coin-r1" data-coin="r1">
+                                <div class="coin-float-wrap">
+                                    <svg class="coin-svg" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="49" fill="url(#phonepeGoldRim)"/>
+                                        <circle cx="50" cy="50" r="48.5" fill="none" stroke="#ca8a04" stroke-width="0.8" opacity="0.6"/>
+                                        <circle cx="50" cy="50" r="44" fill="url(#phonepeGoldFace)"/>
+                                        <path d="M 22 42 A 32 32 0 0 1 78 42 A 32 24 0 0 0 22 42" fill="url(#specularArcGrad)" opacity="0.4"/>
+                                        <circle cx="50" cy="50" r="39" fill="none" stroke="url(#phonepeGrooveGrad)" stroke-width="1.2"/>
+                                        <circle cx="50" cy="50" r="38" fill="none" stroke="#fffde8" stroke-width="0.7" opacity="0.65"/>
+                                    </svg>
+                                    <div class="coin-internal-gleam"></div>
+                                </div>
+                            </div>
+
+                            <!-- Coin R2 (Mid Right - Complete Round Coin) -->
+                            <div class="hero-coin coin-r2" data-coin="r2">
+                                <div class="coin-float-wrap">
+                                    <svg class="coin-svg" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="49" fill="url(#phonepeGoldRim)"/>
+                                        <circle cx="50" cy="50" r="48.5" fill="none" stroke="#ca8a04" stroke-width="0.8" opacity="0.6"/>
+                                        <circle cx="50" cy="50" r="44" fill="url(#phonepeGoldFace)"/>
+                                        <path d="M 22 42 A 32 32 0 0 1 78 42 A 32 24 0 0 0 22 42" fill="url(#specularArcGrad)" opacity="0.4"/>
+                                        <circle cx="50" cy="50" r="39" fill="none" stroke="url(#phonepeGrooveGrad)" stroke-width="1.2"/>
+                                        <circle cx="50" cy="50" r="38" fill="none" stroke="#fffde8" stroke-width="0.7" opacity="0.65"/>
+                                    </svg>
+                                    <div class="coin-internal-gleam"></div>
+                                </div>
+                            </div>
+
+                            <!-- Coin R3 (Far Right - Complete Round Coin) -->
+                            <div class="hero-coin coin-r3" data-coin="r3">
+                                <div class="coin-float-wrap">
+                                    <svg class="coin-svg" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="49" fill="url(#phonepeGoldRim)"/>
+                                        <circle cx="50" cy="50" r="48.5" fill="none" stroke="#ca8a04" stroke-width="0.8" opacity="0.6"/>
+                                        <circle cx="50" cy="50" r="44" fill="url(#phonepeGoldFace)"/>
+                                        <path d="M 22 42 A 32 32 0 0 1 78 42 A 32 24 0 0 0 22 42" fill="url(#specularArcGrad)" opacity="0.4"/>
+                                        <circle cx="50" cy="50" r="39" fill="none" stroke="url(#phonepeGrooveGrad)" stroke-width="1.2"/>
+                                        <circle cx="50" cy="50" r="38" fill="none" stroke="#fffde8" stroke-width="0.7" opacity="0.65"/>
+                                    </svg>
+                                    <div class="coin-internal-gleam"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Heading: ₹5400 (Gold) in 6 months (White) - Matching Image 2 -->
+                    <h2 class="gold-banner-heading">
+                        <span class="gold-highlight-amt">₹5400</span> <span class="gold-highlight-period">in 6 months</span>
+                    </h2>
+
+                    <!-- Save now Pill Button -->
+                    <div class="gold-banner-btn" onclick="appInst.showToast('Starting Daily Gold Savings...')">Save now</div>
+
+                    <!-- Disclaimer -->
+                    <p class="gold-banner-disclaimer">Gold investments are subject to market risks and past performance is not a guarantee of future returns</p>
+                </div>
+
+                <!-- b) Money Transfers -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Money Transfers</h3>
+                        <div class="badge-refer" onclick="appInst.showToast('Refer PhonePe & Earn ₹200')">
+                            <span class="badge-refer-coin">₹</span>
+                            <span>Refer → ₹200</span>
+                        </div>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" data-action="to-mobile">
+                            <div class="service-icon-wrapper-real">
+                                <img src="Assets/icons/to_mobile.png" alt="To Mobile Number" class="phonepe-real-icon">
+                            </div>
+                            <span class="service-label">To Mobile Number</span>
+                        </div>
+                        <div class="service-icon-box" data-action="to-bank">
+                            <div class="service-icon-wrapper-real">
+                                <img src="Assets/icons/to_bank.png" alt="To Bank & Self A/c" class="phonepe-real-icon">
+                            </div>
+                            <span class="service-label">To Bank &amp; Self A/c</span>
+                        </div>
+                        <div class="service-icon-box" data-action="wallet">
+                            <div class="service-icon-wrapper-real service-icon-wrapper-wallet">
+                                <img src="Assets/icons/wallet_full.png" alt="PhonePe Wallet" class="phonepe-real-icon-wallet">
+                            </div>
+                            <span class="service-label">PhonePe Wallet</span>
+                        </div>
+                        <div class="service-icon-box" data-action="check-balance">
+                            <div class="service-icon-wrapper-real">
+                                <img src="Assets/icons/check_balance.png" alt="Check Balance" class="phonepe-real-icon">
+                            </div>
+                            <span class="service-label">Check Balance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horizontal Sub-Banner Mini Carousel Strip -->
+                <div class="promo-banner-scroll">
+                    <div class="promo-mini-card" onclick="appInst.showToast('Flat 50% off on loan fees applied!')">
+                        <img src="Assets/icons/promo_loan_char.png" alt="Loan Offer" class="promo-mini-art">
+                        <span class="mini-text">Flat 50% off on loan fees*</span>
+                    </div>
+                    <div class="promo-mini-card" onclick="appInst.showToast('Start saving in pure Silver today')">
+                        <img src="Assets/icons/promo_silver_coin.png" alt="Pure Silver" class="promo-mini-art">
+                        <span class="mini-text">Start saving in pure Silver daily</span>
+                    </div>
+                </div>
+
+                <!-- d) Recharge & Bills -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Recharge &amp; Bills</h3>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" onclick="appInst.showToast('Mobile Recharge Selected')">
+                            <div class="icon-box-real-bill">
+                                <img src="Assets/icons/bill_mobile_sq.png" alt="Mobile Recharge" class="real-bill-card-img">
+                            </div>
+                            <span class="service-label">Mobile Recharge</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Tuition Fees Selected')">
+                            <div class="icon-box-real-bill">
+                                <img src="Assets/icons/bill_tuition_sq.png" alt="Tuition Fees" class="real-bill-card-img">
+                            </div>
+                            <span class="service-label">Tuition Fees</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Electricity Bill Selected')">
+                            <div class="icon-box-real-bill">
+                                <img src="Assets/icons/bill_electricity_sq.png" alt="Electricity" class="real-bill-card-img">
+                            </div>
+                            <span class="service-label">Electricity</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Loan Repayment Selected')">
+                            <div class="icon-box-real-bill">
+                                <img src="Assets/icons/bill_loan_sq.png" alt="Loan Repayment" class="real-bill-card-img">
+                            </div>
+                            <span class="service-label">Loan Repayment</span>
+                        </div>
+                    </div>
+                    <div class="sub-banner-row">
+                        <div class="sub-banner-pill" onclick="appInst.showToast('Buy Jio SIM / Port to Jio')">
+                            <span class="pill-text">Buy Jio SIM:Home Delivered</span>
+                            <img src="Assets/icons/jio_sim.png" alt="Jio SIM" class="jio-sim-img">
+                        </div>
+                        <div class="sub-banner-more" onclick="appInst.showToast('All Bills & Recharges')">
+                            More <span class="material-icons">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- e) Loans Section -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Loans</h3>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" onclick="appInst.showToast('Personal Loan Application')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#a78bfa;">person</span>
+                            </div>
+                            <span class="service-label">Personal Loan</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Mutual Funds Loan')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#2dd4bf;">insert_chart</span>
+                            </div>
+                            <span class="service-label">Mutual Funds Loan</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Gold Loan Services')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#fbbf24;">savings</span>
+                            </div>
+                            <span class="service-label">Gold Loan</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Check Free Credit Score')">
+                            <div class="icon-box-dark">
+                                <span class="badge-latest">Latest</span>
+                                <span class="material-icons" style="color:#38bdf8;">speed</span>
+                            </div>
+                            <span class="service-label">Credit Score</span>
+                        </div>
+                    </div>
+                    <div class="sub-banner-row">
+                        <div class="sub-banner-pill" onclick="appInst.showToast('Check credit score for FREE')">
+                            <span class="pill-text">Check credit score for FREE</span>
+                            <span class="pill-art">📊</span>
+                        </div>
+                        <div class="sub-banner-more" onclick="appInst.showToast('All Loans')">
+                            More <span class="material-icons">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- f) Gold, Silver & Platinum -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Gold, Silver &amp; Platinum</h3>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" onclick="appInst.showToast('Daily Gold with ₹10')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#f59e0b;">paid</span>
+                            </div>
+                            <span class="service-label">Daily Gold with ₹10</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Buy 24K Gold')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#fbbf24;">monetization_on</span>
+                            </div>
+                            <span class="service-label">Buy Gold</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Daily Silver with ₹10')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#94a3b8;">circle</span>
+                            </div>
+                            <span class="service-label">Daily Silver with ₹10</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Save for Goals')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#f97316;">flag</span>
+                            </div>
+                            <span class="service-label">Save for Goals</span>
+                        </div>
+                    </div>
+                    <div class="sub-banner-row">
+                        <div class="sub-banner-pill" onclick="appInst.showToast('Save in pure Platinum daily')">
+                            <span class="pill-text">Save in pure Platinum daily</span>
+                            <span class="pill-art">💍</span>
+                        </div>
+                        <div class="sub-banner-more" onclick="appInst.showToast('Gold & Silver Details')">
+                            More <span class="material-icons">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Purple Trade Leverage Strip (Share.Market banner) -->
+                <div style="margin:14px 16px; background:#4a159d; border-radius:14px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="appInst.showToast('Trading with 5x leverage on Share.Market')">
+                    <div>
+                        <p style="font-size:11px; color:#d8b4fe;">Trade with 5x leverage</p>
+                        <h4 style="font-size:14px; font-weight:700; color:#ffffff;">₹100 gets you ₹500 buying power →</h4>
+                    </div>
+                    <div style="font-size:26px;">📈</div>
+                </div>
+
+                <!-- g) Insurance -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Insurance</h3>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" onclick="appInst.showToast('Bike Insurance')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#a855f7;">two_wheeler</span>
+                            </div>
+                            <span class="service-label">Bike</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Car Insurance')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#38bdf8;">directions_car</span>
+                            </div>
+                            <span class="service-label">Car</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Health Insurance')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#ef4444;">medical_services</span>
+                            </div>
+                            <span class="service-label">Health</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Life Insurance')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#22c55e;">umbrella</span>
+                            </div>
+                            <span class="service-label">Life</span>
+                        </div>
+                    </div>
+                    <div class="sub-banner-row">
+                        <div class="sub-banner-pill" onclick="appInst.showToast('₹50K Dengue Cover selected')">
+                            <span class="pill-text">₹50K Dengue cover at ₹59/yr*</span>
+                            <span class="pill-art">🦟</span>
+                        </div>
+                        <div class="sub-banner-more" onclick="appInst.showToast('All Insurance Options')">
+                            More <span class="material-icons">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- h) Mutual Funds & Deposits -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Mutual Funds &amp; Deposits</h3>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" onclick="appInst.showToast('Best SIP Funds')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#3b82f6;">stars</span>
+                            </div>
+                            <span class="service-label">Best SIP Funds</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('High Growth Funds')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#10b981;">trending_up</span>
+                            </div>
+                            <span class="service-label">High Growth Funds</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('FD & Daily RD')">
+                            <span class="badge-new">New</span>
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#14b8a6;">account_balance</span>
+                            </div>
+                            <span class="service-label">FD &amp; Daily RD</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Daily SIP with ₹10')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#ec4899;">payments</span>
+                            </div>
+                            <span class="service-label">Daily SIP with ₹10</span>
+                        </div>
+                    </div>
+                    <div class="sub-banner-row">
+                        <div class="sub-banner-pill" onclick="appInst.showToast('Start a SIP in 5 seconds')">
+                            <span class="pill-text">Start a SIP in 5 seconds</span>
+                            <span class="pill-art">📊</span>
+                        </div>
+                        <div class="sub-banner-more" onclick="appInst.showToast('Mutual Funds Overview')">
+                            More <span class="material-icons">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- i) Travel & Transit -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Travel &amp; Transit</h3>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" onclick="appInst.showToast('Flight Bookings')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#38bdf8;">flight</span>
+                            </div>
+                            <span class="service-label">Flight</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Bus Bookings')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#ef4444;">directions_bus</span>
+                            </div>
+                            <span class="service-label">Bus</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Train Bookings')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#3b82f6;">train</span>
+                            </div>
+                            <span class="service-label">Train</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Hotel Bookings')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#f59e0b;">hotel</span>
+                            </div>
+                            <span class="service-label">Hotel</span>
+                        </div>
+                    </div>
+                    <div class="sub-banner-row">
+                        <div class="sub-banner-pill" onclick="appInst.showToast('Save up to 30% on Hotels')">
+                            <span class="pill-text">Save up to 30% on Hotels</span>
+                            <span class="pill-art">🏨</span>
+                        </div>
+                        <div class="sub-banner-more" onclick="appInst.showToast('All Travel Services')">
+                            More <span class="material-icons">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- j) Credit Cards -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">New Credit Card</h3>
+                    </div>
+                    <div class="credit-cards-row">
+                        <div class="cc-visual-card" onclick="appInst.showToast('Apply for 100% Approval Card')">
+                            <div class="cc-card-art cc-approval">
+                                <span class="material-icons" style="color:#ffd700;">star</span>
+                                <div class="cc-ribbon-free">FREE</div>
+                                <span style="font-size:10px; color:#ffffff80;">•••• 8820</span>
+                            </div>
+                            <span class="cc-card-name">100% Approval Card</span>
+                        </div>
+                        <div class="cc-visual-card" onclick="appInst.showToast('Apply for Axis Bank Credit Card')">
+                            <div class="cc-card-art cc-axis">
+                                <span class="material-icons" style="color:#ffffff;">account_balance</span>
+                                <span style="font-size:14px; font-weight:800; color:#ffffff;">AXIS</span>
+                                <span style="font-size:10px; color:#ffffff80;">•••• 1467</span>
+                            </div>
+                            <span class="cc-card-name">Axis Credit Card</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- k) Offers & Rewards -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Offers &amp; Rewards</h3>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" onclick="appInst.showToast('Offer Zone')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#eab308;">card_giftcard</span>
+                            </div>
+                            <span class="service-label">Offer Zone</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Brand Vouchers')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#a855f7;">confirmation_number</span>
+                            </div>
+                            <span class="service-label">Brand Vouchers</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Subscriptions')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#06b6d4;">subscriptions</span>
+                            </div>
+                            <span class="service-label">Subscriptions</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Google Play Recharge')">
+                            <div class="icon-box-dark">
+                                <span class="material-icons" style="color:#22c55e;">play_arrow</span>
+                            </div>
+                            <span class="service-label">Google Play</span>
+                        </div>
+                    </div>
+                    <div class="sub-banner-row">
+                        <div class="sub-banner-pill" onclick="appInst.showToast('Most Popular Offers')">
+                            <span class="pill-text">Explore most popular offers</span>
+                            <span class="pill-art">⭐</span>
+                        </div>
+                        <div class="sub-banner-more" onclick="appInst.showToast('All Rewards & Coupons')">
+                            More <span class="material-icons">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- l) Share.Market Section -->
+                <div class="phonepe-section-card">
+                    <p style="font-size:13px; color:#a1a1aa;">Looking for stocks or ETFs? Find both on</p>
+                    <h3 style="font-size:18px; font-weight:800; color:#ffffff; margin:4px 0 14px;">share<span style="color:#22c55e;">.</span>market</h3>
+                    
+                    <div class="stocks-card-container">
+                        <div class="stock-box" onclick="appInst.showToast('State Bank of India Stock Details')">
+                            <div class="stock-header-row">
+                                <div class="stock-initial-badge sbi">S</div>
+                                <span class="stock-company-name">State Bank of India</span>
+                            </div>
+                            <div class="stock-price-val">₹ 959.50</div>
+                            <div class="stock-price-sub">Previous closing price</div>
+                            <svg class="stock-sparkline" viewBox="0 0 100 30">
+                                <path d="M0 24 L20 22 L35 12 L50 20 L65 16 L85 22 L100 8" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </div>
+                        <div class="stock-box" onclick="appInst.showToast('Vodafone Idea Stock Details')">
+                            <div class="stock-header-row">
+                                <div class="stock-initial-badge voda">V</div>
+                                <span class="stock-company-name">Vodafone Idea Ltd.</span>
+                            </div>
+                            <div class="stock-price-val">₹ 12.95</div>
+                            <div class="stock-price-sub">Previous closing price</div>
+                            <svg class="stock-sparkline" viewBox="0 0 100 30">
+                                <path d="M0 20 L25 18 L45 25 L65 14 L80 18 L100 10" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px; display:flex; align-items:center; gap:4px; color:#8e54e9; font-weight:700; font-size:13px; cursor:pointer;" onclick="appInst.showToast('Opening Share.Market...')">
+                        Explore Share.Market <span class="material-icons" style="font-size:16px;">arrow_forward</span>
+                    </div>
+                    <p style="font-size:10px; color:#52525b; margin-top:10px; line-height:1.4;">Investments in securities market are subject to market risks, read all the related documents carefully before investing.</p>
+                </div>
+
+                <!-- m) Brand in Focus -->
+                <div class="phonepe-section-card">
+                    <div class="section-header-row">
+                        <h3 class="section-title">Brand in Focus</h3>
+                    </div>
+                    <div class="services-4col-grid">
+                        <div class="service-icon-box" onclick="appInst.showToast('Story TV Streaming')">
+                            <div class="brand-icon-pink">
+                                <span class="material-icons">tv</span>
+                            </div>
+                            <span class="service-label">Story TV</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Best Dramas on PhonePe')">
+                            <div class="brand-icon-pink">
+                                <span class="material-icons">theater_comedy</span>
+                            </div>
+                            <span class="service-label">Best Dramas</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Top Shows')">
+                            <div class="brand-icon-pink">
+                                <span class="material-icons">star</span>
+                            </div>
+                            <span class="service-label">Top Shows</span>
+                        </div>
+                        <div class="service-icon-box" onclick="appInst.showToast('Hit Series')">
+                            <div class="brand-icon-pink">
+                                <span class="material-icons">movie</span>
+                            </div>
+                            <span class="service-label">Hit Series</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- n) MY QR Section in Home -->
+                <div class="myqr-section-wrapper">
+                    <h2 class="myqr-gray-title">MY QR</h2>
+                    <div class="myqr-card-dark">
+                        <div class="myqr-bank-header">
+                            <div class="myqr-bank-logo">H</div>
+                            <span class="myqr-bank-name">Sarva Hary... - 1467</span>
+                        </div>
+                        <div class="myqr-code-box">
+                            <div id="home-qr-target" style="display:flex; justify-content:center;"></div>
+                        </div>
+                        <div class="myqr-upi-row">
+                            <span>UPI ID: <strong id="home-upi-id">8572833129@axl</strong></span>
+                            <span class="material-icons" style="font-size:18px; cursor:pointer;" onclick="appInst.copyToClipboard('8572833129@axl')">content_copy</span>
+                        </div>
+                        <div class="myqr-actions-row">
+                            <button class="myqr-action-btn" onclick="appInst.showToast('QR Code saved to gallery!')">
+                                <span class="material-icons">download</span> Download
+                            </button>
+                            <button class="myqr-action-btn" onclick="appInst.showToast('Sharing your QR Code...')">
+                                <span class="material-icons">share</span> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- o) UPI Lite banner at the bottom -->
+                <div class="upi-lite-strip" onclick="appInst.showToast('Activating UPI Lite PIN-free payments...')">
+                    <div class="upi-lite-left">
+                        <div class="upi-lite-badge-icon">⚡</div>
+                        <div>
+                            <span class="upi-lite-title">UPI Lite</span>
+                            <span class="upi-lite-tag">Pay PIN-free</span>
+                        </div>
+                    </div>
+                    <span class="upi-lite-link">Activate</span>
+                </div>
+
+                <!-- Clearance spacer for bottom nav -->
+                <div style="height:40px;"></div>
+            </div>
+        </div>
+
+        <!-- 4. SEARCH PAGE -->
+        <div id="page-search" class="page with-nav">
+            <div class="search-top-header">
+                <span class="material-icons" onclick="appInst.showToast('Search Help Desk')">help_outline</span>
+            </div>
+            <h1 class="search-main-title">Search</h1>
+            <div class="search-input-box">
+                <span class="material-icons">search</span>
+                <input type="text" placeholder="Search for 'contacts'">
+                <span class="material-icons" onclick="appInst.showToast('Voice Search Listening...')">mic</span>
+            </div>
+
+            <h3 class="search-section-label">Popular</h3>
+            <div class="search-popular-grid">
+                <div class="service-icon-box" onclick="appInst.showToast('Credit Score Check')">
+                    <div class="icon-box-dark">
+                        <span class="badge-latest">Latest</span>
+                        <span class="material-icons" style="color:#38bdf8;">speed</span>
+                    </div>
+                    <span class="service-label">Credit Score</span>
+                </div>
+                <div class="service-icon-box" onclick="appInst.showToast('Mobile Recharge')">
+                    <div class="icon-box-dark">
+                        <span class="material-icons" style="color:#38bdf8;">phone_android</span>
+                    </div>
+                    <span class="service-label">Mobile Recharge</span>
+                </div>
+                <div class="service-icon-box" onclick="appInst.showToast('Loan Repayment')">
+                    <div class="icon-box-dark">
+                        <span class="material-icons" style="color:#fb923c;">calendar_month</span>
+                    </div>
+                    <span class="service-label">Loan Repayment</span>
+                </div>
+                <div class="service-icon-box" onclick="appInst.showToast('FASTag Recharge')">
+                    <div class="icon-box-dark">
+                        <span class="material-icons" style="color:#22c55e;">directions_car</span>
+                    </div>
+                    <span class="service-label">FASTag Recharge</span>
+                </div>
+            </div>
+
+            <h3 class="search-section-label">New for you</h3>
+            <div class="search-dual-cards">
+                <div class="search-big-card" onclick="appInst.showToast('Setting up UPI Circle...')">
+                    <div class="search-big-card-img" style="background:#281b3d;">
+                        <span class="material-icons" style="font-size:48px; color:#a855f7;">group_add</span>
+                    </div>
+                    <div class="search-big-card-body">
+                        <h4>Set up UPI Circle</h4>
+                        <p>Pay for your loved ones anytime</p>
+                    </div>
+                </div>
+                <div class="search-big-card" onclick="appInst.showToast('Enabling Fingerprint Authentication...')">
+                    <div class="search-big-card-img" style="background:#1d283d;">
+                        <span class="material-icons" style="font-size:48px; color:#38bdf8;">fingerprint</span>
+                    </div>
+                    <div class="search-big-card-body">
+                        <h4>Use Fingerprint</h4>
+                        <p>Enjoy easy, PIN-less payments</p>
+                    </div>
+                </div>
+            </div>
+            <div style="height:40px;"></div>
+        </div>
+
+        <!-- 5. QR SCANNER PAGE (Matching Image 1) -->
+        <div id="page-scan" class="page">
+            <!-- Top Header -->
+            <div class="scan-header-bar">
+                <span class="material-icons scan-back-btn" data-action="back">arrow_back</span>
+                <div class="scan-header-titles">
+                    <span class="scan-main-title">Scan any QR</span>
+                    <span class="scan-sub-title">PhonePe • Google Pay • BHIM • Paytm</span>
+                </div>
+                <span class="material-icons scan-help-btn" onclick="appInst.showToast('Point your camera at any UPI QR code')">help_outline</span>
+            </div>
+
+            <div id="view-scan" class="scan-camera-viewport">
+                <video id="qr-video" autoplay playsinline class="scan-video-stream"></video>
+                <canvas id="qr-canvas" hidden></canvas>
+                
+                <!-- Semi-transparent vignette mask -->
+                <div class="scanner-vignette-scrim"></div>
+
+                <!-- Smooth Pop Effect Scanner Box with Purple Lines -->
+                <div class="scanner-pop-box" id="scanner-active-box" title="Tap to simulate scan">
+                    <!-- 4 Rounded Purple Corners -->
+                    <div class="scanner-corner-purple top-left"></div>
+                    <div class="scanner-corner-purple top-right"></div>
+                    <div class="scanner-corner-purple bottom-left"></div>
+                    <div class="scanner-corner-purple bottom-right"></div>
+                    
+                    <!-- Animated Purple Laser Line -->
+                    <div class="scanner-laser-purple"></div>
+
+                    <!-- Scan matched momentary green flash -->
+                    <div class="scanner-flash-indicator" id="scanner-flash-indicator"></div>
+                </div>
+
+                <!-- Circular Actions: Upload QR & Torch -->
+                <div class="scanner-controls-row">
+                    <div class="scanner-circle-action-item" id="btn-gallery" title="Upload QR image">
+                        <div class="scanner-circle-action-btn">
+                            <span class="material-icons">image</span>
+                        </div>
+                        <span class="scanner-action-label">Upload QR</span>
+                    </div>
+                    <input type="file" id="gallery-input" accept="image/*" hidden>
+
+                    <div class="scanner-circle-action-item" id="btn-torch" title="Toggle Flashlight">
+                        <div class="scanner-circle-action-btn">
+                            <span class="material-icons">flashlight_on</span>
+                        </div>
+                        <span class="scanner-action-label">Torch</span>
+                    </div>
+                </div>
+
+                <!-- Bottom Watermark: BHIM UPI (Matching Image 1) -->
+                <div class="scanner-bhim-upi-branding">
+                    <div class="scanner-bhim-top-row">
+                        <span class="bhim-brand-txt">BHIM</span>
+                        <span class="bhim-arrow-symbol">▶</span>
+                        <span class="brand-pipe">|</span>
+                        <span class="upi-brand-txt">UPI</span>
+                        <span class="upi-arrow-symbol">▶</span>
+                    </div>
+                    <div class="scanner-bhim-sub-row">
+                        <span>BHARAT INTERFACE FOR MONEY</span>
+                        <span class="sub-pipe">|</span>
+                        <span>UNIFIED PAYMENTS INTERFACE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile QR view preserved for compatibility -->
+            <div id="view-myqr" style="display:none; width:100%; height:100vh; background:#000000; padding:120px 20px 40px; flex-direction:column; align-items:center;">
+                <div class="myqr-card-dark" style="width:100%; max-width:340px;">
+                    <div class="myqr-bank-header">
+                        <div class="myqr-bank-logo">H</div>
+                        <span class="myqr-bank-name" id="myqr-name">Sarva Hary... - 1467</span>
+                    </div>
+                    <div class="myqr-code-box">
+                        <div id="myqr-render" style="display:flex; justify-content:center;"></div>
+                    </div>
+                    <div class="myqr-upi-row">
+                        <span>UPI ID: <strong id="myqr-upi">8572833129@axl</strong></span>
+                        <span class="material-icons" style="font-size:18px; cursor:pointer;" onclick="appInst.copyToClipboard('8572833129@axl')">content_copy</span>
+                    </div>
+                    <div class="myqr-actions-row">
+                        <button class="myqr-action-btn" id="btn-download-qr">
+                            <span class="material-icons">download</span> Download
+                        </button>
+                        <button class="myqr-action-btn" id="btn-share-qr">
+                            <span class="material-icons">share</span> Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. ALERTS PAGE -->
+        <div id="page-alerts" class="page with-nav">
+            <div class="alerts-top-bar">
+                <span class="material-icons" style="color:#ffffff; font-size:24px; cursor:pointer;" onclick="appInst.showToast('Alerts Settings')">help_outline</span>
+            </div>
+            <h1 class="alerts-title">Alerts</h1>
+            
+            <div class="alerts-empty-state">
+                <span class="alerts-caught-up">YOU'RE ALL CAUGHT UP!</span>
+            </div>
+
+            <div class="alerts-curated-sheet">
+                <div class="alerts-explore-tag">EXPLORE</div>
+                <h2 class="alerts-curated-heading">50+ curated offers</h2>
+                <div class="alerts-offers-grid">
+                    <div class="alerts-offer-card" onclick="appInst.showToast('Offers for you')">
+                        <span class="material-icons" style="font-size:32px; color:#2dd4bf;">redeem</span>
+                        <h5>Offers for you</h5>
+                        <p>Exciting offers</p>
+                    </div>
+                    <div class="alerts-offer-card" onclick="appInst.showToast('Most Popular Offers')">
+                        <span class="material-icons" style="font-size:32px; color:#f59e0b;">star</span>
+                        <h5>Most Popular</h5>
+                        <p>Top picks today</p>
+                    </div>
+                    <div class="alerts-offer-card" onclick="appInst.showToast('All 50+ Offers')">
+                        <div style="width:36px; height:36px; border-radius:50%; background:#6d28d9; display:flex; align-items:center; justify-content:center; color:#ffffff;">
+                            <span class="material-icons" style="font-size:22px;">arrow_forward</span>
+                        </div>
+                        <h5>All Offers</h5>
+                        <p>Browse collection</p>
+                    </div>
+                </div>
+            </div>
+            <div style="height:40px;"></div>
+        </div>
+
+        <!-- 7. HISTORY PAGE -->
+        <div id="page-history" class="page with-nav">
+            <div class="history-header-bar">
+                <h1 class="history-title">History</h1>
+                <button class="history-statements-btn" onclick="appInst.showToast('Account statement downloaded (PDF)')">
+                    <span class="material-icons" style="font-size:16px;">download</span>
+                    My Statements
+                </button>
+            </div>
+            
+            <div class="history-search-row">
+                <div class="history-search-input">
+                    <span class="material-icons" style="color:#71717a; font-size:20px;">search</span>
+                    <input type="text" placeholder="Search" oninput="appInst.renderHistory(this.value)">
+                </div>
+                <div class="history-filter-pill" onclick="appInst.showToast('Showing all filtered transactions')">
+                    <span class="material-icons" style="font-size:18px;">tune</span>
+                    Filter
+                </div>
+            </div>
+
+            <div id="history-list">
+                <!-- Dynamically populated from storage transactions -->
+            </div>
+            <div style="height:40px;"></div>
+        </div>
+
+        <!-- 8. SEND MONEY PAGE -->
+        <div id="page-send-money" class="page">
+            <header style="display:flex; align-items:center; gap:16px; padding:16px; background:#121214; border-bottom:1px solid #1f1f26;">
+                <span class="material-icons" style="color:#ffffff; font-size:24px; cursor:pointer;" data-action="back">arrow_back</span>
+                <h3 style="font-size:17px; font-weight:700; color:#ffffff;">Send Money</h3>
+            </header>
+            
+            <div style="padding:14px 16px;">
+                <div class="search-input-box" style="margin-bottom:16px;">
+                    <span class="material-icons">search</span>
+                    <input type="text" placeholder="Search any mobile number or contact">
+                </div>
+
+                <h4 style="font-size:13px; font-weight:600; color:#a1a1aa; margin-bottom:12px;">Recent Contacts</h4>
+                <div id="contacts-list" style="display:flex; flex-direction:column; gap:10px;">
+                    <!-- Filled by app.js onSendMoney -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. PAYMENT AMOUNT SCREEN (Matching Image 2) -->
+        <div id="page-pay" class="page">
+            <!-- Header: Back | Pay | Help -->
+            <header class="pay-top-nav-bar">
+                <span class="material-icons pay-nav-back" data-action="back">arrow_back</span>
+                <h2 class="pay-nav-title">Pay</h2>
+                <span class="material-icons pay-nav-help" onclick="appInst.showToast('Payment Help & Support')">help_outline</span>
+            </header>
+
+            <div class="pay-screen-body">
+                <!-- Recipient Card -->
+                <div class="payee-profile-card">
+                    <div class="payee-avatar-circle" id="pay-avatar-initial">RL</div>
+                    <div class="payee-meta-info">
+                        <h3 class="payee-display-name" id="pay-recipient-name">Rahul Loyal</h3>
+                        <p class="payee-vpa-id" id="pay-recipient-upi">••••••9188@ptyes</p>
+                    </div>
+                </div>
+
+                <!-- Purple Outline Amount Box (Image 2) -->
+                <div class="pay-amount-box-purple" id="pay-amount-box-wrap">
+                    <div class="pay-amount-text-row">
+                        <span class="pay-rupee-symbol">₹</span>
+                        <span class="pay-amount-value" id="pay-amount-display">1,555</span>
+                        <span class="pay-blinking-cursor"></span>
+                    </div>
+                    <input type="hidden" id="pay-amount-input" value="1555">
+                </div>
+
+                <!-- Add a Message Box (Image 2) -->
+                <div class="pay-message-container">
+                    <input type="text" id="pay-message-input" class="pay-message-field" placeholder="Add a message (optional)">
+                </div>
+
+                <!-- Proceed To Pay Button (Image 2) -->
+                <div class="pay-proceed-btn-wrap">
+                    <button id="btn-proceed-pay" class="btn-proceed-phonepe-purple">Proceed To Pay</button>
+                </div>
+
+                <!-- Integrated Numeric Keypad (Image 2) -->
+                <div class="phonepe-custom-numeric-keypad" id="phonepe-keypad">
+                    <!-- Top Toolbar Row -->
+                    <div class="keypad-toolbar-icons">
+                        <span class="material-icons">grid_view</span>
+                        <span class="material-icons">content_paste</span>
+                        <span class="material-icons">g_translate</span>
+                        <span class="material-icons">settings</span>
+                        <span class="material-icons">mic_off</span>
+                    </div>
+                    <!-- 4x4 Grid -->
+                    <div class="keypad-numeric-grid">
+                        <button type="button" class="k-num-btn" data-key="1">1</button>
+                        <button type="button" class="k-num-btn" data-key="2">2</button>
+                        <button type="button" class="k-num-btn" data-key="3">3</button>
+                        <button type="button" class="k-num-btn k-spec" data-key="-">-</button>
+
+                        <button type="button" class="k-num-btn" data-key="4">4</button>
+                        <button type="button" class="k-num-btn" data-key="5">5</button>
+                        <button type="button" class="k-num-btn" data-key="6">6</button>
+                        <button type="button" class="k-num-btn k-spec" data-key="space"><span class="material-icons">space_bar</span></button>
+
+                        <button type="button" class="k-num-btn" data-key="7">7</button>
+                        <button type="button" class="k-num-btn" data-key="8">8</button>
+                        <button type="button" class="k-num-btn" data-key="9">9</button>
+                        <button type="button" class="k-num-btn k-spec" data-key="backspace"><span class="material-icons">backspace</span></button>
+
+                        <button type="button" class="k-num-btn k-spec" data-key=",">,</button>
+                        <button type="button" class="k-num-btn" data-key="0">0</button>
+                        <button type="button" class="k-num-btn k-spec" data-key=".">.</button>
+                        <button type="button" class="k-num-btn k-action-enter" data-key="proceed">
+                            <span class="material-icons">east</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. BANK SELECTION BOTTOM SHEET MODAL (Matching Image 3) -->
+            <div id="modal-bank-sheet" class="bank-selection-sheet-overlay">
+                <div class="bank-sheet-close-fab" id="btn-close-bank-sheet" title="Close sheet">
+                    <span class="material-icons">close</span>
+                </div>
+                
+                <div class="bank-selection-sheet-card">
+                    <!-- Total Payable Row -->
+                    <div class="sheet-payable-row">
+                        <span class="sheet-payable-label">Total Payable</span>
+                        <span class="sheet-payable-amount" id="sheet-total-payable">₹16,798</span>
+                    </div>
+
+                    <div class="sheet-thin-divider"></div>
+
+                    <!-- Recommended Section -->
+                    <div class="sheet-section-heading">Recommended</div>
+
+                    <!-- Sarva Haryana Gramin Bank Account Card (Image 3) -->
+                    <div class="sheet-bank-account-card selected" id="sheet-bank-item-shgb">
+                        <div class="sheet-bank-left-block">
+                            <!-- Circular SHGB Bank Emblem -->
+                            <div class="sheet-bank-logo-badge">
+                                <svg viewBox="0 0 100 100" class="shgb-svg-logo">
+                                    <circle cx="50" cy="50" r="48" fill="#800000" stroke="#f59e0b" stroke-width="2"/>
+                                    <circle cx="50" cy="50" r="41" fill="#ffffff"/>
+                                    <circle cx="50" cy="50" r="37" fill="none" stroke="#15803d" stroke-width="3" stroke-dasharray="4,2"/>
+                                    <!-- Stylized Wheat / H symbol -->
+                                    <path d="M36 32 L36 68 M64 32 L64 68 M36 50 L64 50" stroke="#15803d" stroke-width="6" stroke-linecap="round"/>
+                                    <path d="M42 36 L50 24 L58 36" fill="none" stroke="#ca8a04" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="50" y1="24" x2="50" y2="48" stroke="#ca8a04" stroke-width="3"/>
+                                </svg>
+                            </div>
+                            <div class="sheet-bank-text-group">
+                                <h4 class="sheet-bank-title" id="sheet-bank-name">Sarva Haryana Gramin Bank</h4>
+                                <div class="sheet-bank-sub-row">
+                                    <span class="sheet-bank-acc-mask" id="sheet-bank-mask">•••• 1467</span>
+                                    <span class="sheet-upi-badge">
+                                        <span class="upi-text-italic">UPI</span>
+                                        <span class="upi-arrow-green">▶</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sheet-bank-right-block">
+                            <span class="sheet-bank-row-amount" id="sheet-row-amount">₹16,798</span>
+                            <span class="sheet-green-check-circle">
+                                <span class="material-icons">check</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="sheet-thin-divider"></div>
+
+                    <!-- Add Payment Method Section -->
+                    <div class="sheet-section-heading">Add Payment Method</div>
+
+                    <!-- Add Bank Account Row -->
+                    <div class="sheet-add-method-row" onclick="appInst.showToast('Link another Bank Account')">
+                        <div class="sheet-method-left">
+                            <span class="material-icons sheet-method-icon">account_balance</span>
+                            <span class="sheet-method-title">Add Bank Account</span>
+                        </div>
+                        <span class="material-icons sheet-method-chevron">chevron_right</span>
+                    </div>
+
+                    <!-- Add Credit Line on UPI Row -->
+                    <div class="sheet-add-method-row" onclick="appInst.showToast('Add credit line on UPI')">
+                        <div class="sheet-method-left">
+                            <span class="material-icons sheet-method-icon">credit_card</span>
+                            <span class="sheet-method-title">Add credit line on UPI</span>
+                        </div>
+                        <span class="material-icons sheet-method-chevron">chevron_right</span>
+                    </div>
+
+                    <!-- Pay Button -->
+                    <button id="btn-sheet-pay" class="sheet-pay-purple-btn">
+                        Pay <span id="sheet-btn-amount">₹16,798</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PAYMENT VERIFIED & SUCCESSFUL ANIMATION OVERLAY -->
+            <div id="payment-verified-overlay" class="payment-verified-full-overlay">
+                <div class="verified-anim-container">
+                    <!-- Phase 1: Security Shield Spinner -->
+                    <div class="verified-pulse-ring-wrap" id="verified-phase-spinner">
+                        <div class="verified-pulse-outer"></div>
+                        <div class="verified-pulse-mid"></div>
+                        <div class="verified-center-circle purple">
+                            <span class="material-icons">lock</span>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2: Green Checked Pop & Drawn Checkmark -->
+                    <div class="verified-success-check-wrap" id="verified-phase-success">
+                        <div class="verified-green-ripple-outer"></div>
+                        <div class="verified-green-ripple-inner"></div>
+                        <div class="verified-center-circle green">
+                            <svg class="checkmark-draw-svg" viewBox="0 0 52 52">
+                                <circle class="checkmark-circle-ring" cx="26" cy="26" r="24" fill="none"/>
+                                <path class="checkmark-tick" fill="none" d="M14 27 L22 35 L38 18"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Status Text -->
+                    <h3 class="verified-status-title" id="verified-status-title">Connecting securely to bank...</h3>
+                    <p class="verified-status-sub" id="verified-status-sub">Please do not press back or close</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. PAYMENT SUCCESS ALIAS SCREEN (Auto-routes to Transaction Successful Screen) -->
+        <div id="page-payment-success" class="page">
+            <script>
+                // Instantly sync with transaction detail screen
+            </script>
+        </div>
+
+        <!-- 11. PAYMENT FAILED SCREEN -->
+        <div id="page-payment-failed" class="page">
+            <div class="failed-top-section">
+                <div class="failed-circle-red">
+                    <span class="material-icons">priority_high</span>
+                </div>
+                <h2 class="failed-title-text">Payment of ₹<span id="failed-amount">1</span> to <span id="failed-recipient">Rahul</span> has failed.</h2>
+            </div>
+
+            <div class="failed-card-sheet">
+                <div class="failed-float-chat" onclick="appInst.showToast('Connecting with support team...')">
+                    <span class="material-icons">forum</span>
+                </div>
+                <h3 class="failed-reason-h3" id="failed-reason">Insufficient Balance</h3>
+                <div class="failed-bank-detail-row">
+                    <span class="material-icons" style="color:#ef4444;">account_balance</span>
+                    <span>Punjab National Bank - XX1467</span>
+                </div>
+                <ul class="failed-bullet-list">
+                    <li>No money has been debited as your account balance is insufficient for this payment.</li>
+                    <li>Please check your balance and try again.</li>
+                </ul>
+                <button class="failed-btn-check-balance" onclick="router.navigate('check-balance')">CHECK BALANCE</button>
+                <div class="failed-sheet-bottom-bar">
+                    <div class="failed-bottom-btn" onclick="router.navigate('history')">VIEW DETAILS</div>
+                    <div class="failed-bottom-btn" onclick="router.navigate('home')">DONE</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. TRANSACTION DETAIL SCREEN (Matching Image 5) -->
+        <div id="page-tx-detail" class="page">
+            <div class="txd-success-green-bar" id="txd-header-bar">
+                <span class="material-icons txd-back-arrow" data-action="back" onclick="router.navigate('home')">arrow_back</span>
+                <div class="txd-green-header-info">
+                    <h3 id="txd-status">Transaction Successful</h3>
+                    <p id="txd-date">04:04 PM on 04 Oct 2026</p>
+                </div>
+            </div>
+
+            <div class="txd-card-container">
+                <!-- Paid to Card (Image 5) -->
+                <div class="txd-dark-card txd-paid-to-card">
+                    <div class="txd-card-top-label">Paid to</div>
+                    <div class="txd-paid-to-row">
+                        <div class="txd-person-info">
+                            <div class="txd-purple-user-avatar" id="txd-avatar">
+                                <span class="material-icons">person</span>
+                            </div>
+                            <div class="txd-person-text">
+                                <h4 id="txd-name">Amit pal</h4>
+                                <p id="txd-upi">Q529411980@ybl</p>
+                            </div>
+                        </div>
+                        <div class="txd-amount-display" id="txd-amount">₹100</div>
+                    </div>
+                </div>
+
+                <!-- Payment Details Card (Image 5) -->
+                <div class="txd-dark-card txd-details-card">
+                    <div class="txd-details-accordion-head">
+                        <div class="txd-head-left">
+                            <span class="material-icons txd-receipt-icon">receipt_long</span>
+                            <span class="txd-head-title">Payment Details</span>
+                        </div>
+                        <span class="material-icons txd-chevron-toggle">expand_less</span>
+                    </div>
+
+                    <!-- Transaction ID Row -->
+                    <div class="txd-info-row">
+                        <span class="txd-info-label">PhonePe Transaction ID</span>
+                        <div class="txd-info-val-group">
+                            <span id="txd-txid">T261004160406594265929</span>
+                            <span class="material-icons txd-copy-btn" onclick="appInst.copyToClipboard(document.getElementById('txd-txid').textContent)">content_copy</span>
+                        </div>
+                    </div>
+
+                    <div class="txd-details-inner-divider"></div>
+
+                    <!-- Debited from Bank Row -->
+                    <div class="txd-debited-block">
+                        <div class="txd-info-label">Debited from</div>
+                        <div class="txd-bank-row-main">
+                            <div class="txd-bank-left">
+                                <div class="txd-bank-logo-box" id="txd-bank-logo">
+                                    <!-- Yellow PNB / SHGB Logo -->
+                                    <svg viewBox="0 0 100 100" class="txd-pnb-logo-svg">
+                                        <rect width="100" height="100" rx="14" fill="#fbbf24"/>
+                                        <path d="M26 22 L55 22 C68 22 76 29 76 39 C76 49 68 56 55 56 L40 56 L40 78 L26 78 Z M40 34 L40 44 L53 44 C58 44 62 42 62 39 C62 36 58 34 53 34 Z" fill="#7a1326"/>
+                                    </svg>
+                                </div>
+                                <span class="txd-bank-acc-mask" id="txd-bank">8105XXXXXX1467</span>
+                            </div>
+                            <span class="txd-bank-amount-val" id="txd-bank-amount">₹100</span>
+                        </div>
+                        <div class="txd-utr-subrow">
+                            <span>UTR: <span id="txd-utr">700209963974</span></span>
+                            <span class="material-icons txd-copy-btn" onclick="appInst.copyToClipboard(document.getElementById('txd-utr').textContent)">content_copy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Action Buttons in Row (Image 5) -->
+                <div class="txd-actions-4grid">
+                    <div class="txd-action-circle-item" onclick="router.navigate('pay')">
+                        <div class="txd-action-btn-circle">
+                            <span class="material-icons">north_east</span>
+                        </div>
+                        <span>Pay Again</span>
+                    </div>
+                    <div class="txd-action-circle-item" onclick="router.navigate('history')">
+                        <div class="txd-action-btn-circle">
+                            <span class="material-icons">schedule</span>
+                        </div>
+                        <span>View History</span>
+                    </div>
+                    <div class="txd-action-circle-item" onclick="appInst.showToast('Expense split link created!')">
+                        <div class="txd-action-btn-circle">
+                            <span class="material-icons">call_split</span>
+                        </div>
+                        <span>Split Expense</span>
+                    </div>
+                    <div class="txd-action-circle-item" onclick="appInst.showToast('Receipt shared!')">
+                        <div class="txd-action-btn-circle">
+                            <span class="material-icons">share</span>
+                        </div>
+                        <span>Share Receipt</span>
+                    </div>
+                </div>
+
+                <!-- Contact Support Pill (Image 5) -->
+                <div class="txd-support-pill" onclick="appInst.showToast('Connecting to PhonePe 24x7 Support...')">
+                    <div class="txd-support-left">
+                        <span class="material-icons txd-help-bubble-icon">help_outline</span>
+                        <span>Contact PhonePe Support</span>
+                    </div>
+                    <span class="material-icons txd-support-chevron">chevron_right</span>
+                </div>
+
+                <!-- Footer: Powered by UPI + Axis Bank (Image 5) -->
+                <div class="txd-footer-powered">
+                    <div class="txd-powered-label">Powered by</div>
+                    <div class="txd-powered-logos">
+                        <span class="txd-bhim-upi-brand">
+                            <span class="bhim-txt">BHIM</span>
+                            <span class="upi-txt">UPI</span>
+                        </span>
+                        <span class="txd-powered-pipe">|</span>
+                        <span class="txd-axis-brand">
+                            <svg class="axis-svg-mini" viewBox="0 0 100 24" width="75" height="18">
+                                <polygon points="6,20 14,4 22,20" fill="#97144d"/>
+                                <polygon points="10,20 14,11 18,20" fill="#ffffff"/>
+                                <text x="27" y="17" font-family="'Inter', sans-serif" font-weight="800" font-size="12" fill="#97144d" letter-spacing="0.5">AXIS BANK</text>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. CHAT PAGE -->
+        <div id="page-chat" class="page">
+            <header class="chat-app-header">
+                <div class="chat-contact-meta">
+                    <span class="material-icons" style="color:#ffffff; font-size:24px; cursor:pointer;" data-action="back">arrow_back</span>
+                    <div class="chat-user-avatar">R</div>
+                    <div class="chat-contact-text">
+                        <h3>Rahul</h3>
+                        <p>+91 ••••• •9188</p>
+                    </div>
+                </div>
+                <div style="display:flex; gap:14px; color:#ffffff;">
+                    <span class="material-icons" style="cursor:pointer;" onclick="appInst.showToast('Scheduled payments')">schedule</span>
+                    <span class="material-icons" style="cursor:pointer;" onclick="appInst.showToast('Chat Help')">help_outline</span>
+                </div>
+            </header>
+
+            <div class="chat-body-scroll">
+                <div class="chat-encryption-pill">
+                    Your messages are secured with 256-bit encryption
+                </div>
+
+                <div class="chat-date-chip">September 11, 2026</div>
+                <div class="chat-bubble-row">
+                    <div class="chat-payment-card success-bubble">
+                        <div class="chat-bubble-amount">₹1</div>
+                        <div class="chat-bubble-status">
+                            <span class="dot-indicator green"></span> PAID
+                        </div>
+                        <div class="chat-bubble-bottom-row">
+                            <span>12:31 PM</span>
+                            <span class="material-icons" style="font-size:14px;">arrow_forward</span>
+                        </div>
+                    </div>
+                    <div class="chat-star-bookmark">
+                        <span class="material-icons">star</span>
+                    </div>
+                </div>
+
+                <div class="chat-date-chip">September 19, 2026</div>
+                <div class="chat-bubble-row">
+                    <div>
+                        <div class="chat-payment-card failed-bubble">
+                            <div class="chat-bubble-amount">₹1</div>
+                            <div class="chat-bubble-status">
+                                <span class="dot-indicator red"></span> FAILED
+                            </div>
+                            <div class="chat-bubble-bottom-row">
+                                <span>11:15 PM</span>
+                                <span class="material-icons" style="font-size:14px;">arrow_forward</span>
+                            </div>
+                        </div>
+                        <button class="chat-retry-dashed-btn" onclick="router.navigate('pay', false, { name:'Rahul', upi:'XXXXXX9188@ptyes' })">Retry payment</button>
+                    </div>
+                    <div class="chat-star-bookmark">
+                        <span class="material-icons">star</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-bar-container">
+                <div class="chat-text-input-field">
+                    <input type="text" placeholder="Enter amount or chat">
+                    <span class="material-icons" style="color:#8e8e96; font-size:20px; cursor:pointer;" onclick="router.navigate('pay', false, { name:'Rahul', upi:'XXXXXX9188@ptyes' })">dialpad</span>
+                </div>
+                <div class="chat-send-icon-btn" onclick="appInst.showToast('Message sent')">
+                    <span class="material-icons" style="font-size:20px;">send</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. CHECK BALANCE / UPI PIN PAD SCREEN (Matching Image 4) -->
+        <div id="page-check-balance" class="page light-theme">
+            <div class="pin-screen-top-area">
+                <div class="pin-top-bar">
+                    <div class="pin-upi-branding">
+                        <span class="pin-upi-text">UPI</span>
+                        <span class="pin-upi-arrow-orange">▶</span>
+                        <span class="pin-upi-arrow-green">▶</span>
+                    </div>
+                    <span class="material-icons pin-close-icon" data-action="back" onclick="router.goBack()">close</span>
+                </div>
+                
+                <div class="pin-account-bar" id="pin-account-bar">
+                    SAVINGS: Sarva Haryana Gramin Bank - 1467
+                </div>
+
+                <!-- Info Card (Image 4) -->
+                <div class="pin-info-card">
+                    <p id="pin-info-text">You are checking your account balance</p>
+                    <div class="pin-rupee-icon-badge" id="pin-rupee-badge">
+                        <span class="pin-rupee-symbol">₹</span>
+                        <span class="pin-rupee-q">?</span>
+                    </div>
+                </div>
+
+                <div class="pin-center-section">
+                    <div class="pin-enter-title">Enter your PIN</div>
+                    <div class="pin-circles-row" id="pin-circles-box">
+                        <div class="pin-circle-outline"></div>
+                        <div class="pin-circle-outline"></div>
+                        <div class="pin-circle-outline"></div>
+                        <div class="pin-circle-outline"></div>
+                        <div class="pin-circle-outline"></div>
+                        <div class="pin-circle-outline"></div>
+                    </div>
+                    <div class="pin-warning-msg">
+                        <span class="material-icons">info</span>
+                        <span>Never enter your UPI PIN to receive money</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pin-keypad-panel">
+                <div class="pin-key-grid" id="pin-numeric-keypad">
+                    <div class="pin-pill-key" data-num="1">1</div>
+                    <div class="pin-pill-key" data-num="2">2</div>
+                    <div class="pin-pill-key" data-num="3">3</div>
+                    <div class="pin-pill-key" data-num="4">4</div>
+                    <div class="pin-pill-key" data-num="5">5</div>
+                    <div class="pin-pill-key" data-num="6">6</div>
+                    <div class="pin-pill-key" data-num="7">7</div>
+                    <div class="pin-pill-key" data-num="8">8</div>
+                    <div class="pin-pill-key" data-num="9">9</div>
+                    <div class="pin-pill-key key-backspace" id="pin-btn-backspace"><span class="material-icons">backspace</span></div>
+                    <div class="pin-pill-key" data-num="0">0</div>
+                    <div class="pin-pill-key key-check" id="pin-btn-check">Check</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. PROFILE & SETTINGS PAGE -->
+        <div id="page-profile" class="page">
+            <header class="profile-top-header">
+                <div class="profile-header-left">
+                    <span class="material-icons profile-back-btn" data-action="back">arrow_back</span>
+                    <h2 class="profile-header-title">Profile &amp; Settings</h2>
+                </div>
+                <div class="profile-header-right">
+                    <span class="material-icons profile-help-btn" onclick="appInst.openHelpModal()" title="Help &amp; Support">help_outline</span>
+                </div>
+            </header>
+
+            <div class="profile-scroll-content">
+                <!-- User Profile Card -->
+                <div class="profile-user-card">
+                    <div class="profile-user-avatar-wrap">
+                        <div class="profile-large-avatar">
+                            <span class="avatar-initial">R</span>
+                        </div>
+                        <div class="profile-avatar-badge" title="Verified">
+                            <span class="material-icons">check</span>
+                        </div>
+                    </div>
+                    <div class="profile-user-details">
+                        <div class="profile-user-name-row">
+                            <h3 class="profile-user-name" id="profile-name">Rahul Loyal</h3>
+                            <span class="profile-kyc-pill">
+                                <span class="material-icons">verified</span> KYC Verified
+                            </span>
+                        </div>
+                        <p class="profile-user-phone" id="profile-phone">+91 85728 33129</p>
+                        <p class="profile-user-upi">Primary UPI: <span id="profile-upi">8572833129@axl</span></p>
+                    </div>
+                </div>
+
+                <!-- User QR Code Card (No camera permission needed) -->
+                <div class="profile-qr-section-card">
+                    <div class="profile-qr-card-header">
+                        <div class="profile-qr-bank-info">
+                            <div class="profile-bank-icon">🏦</div>
+                            <div>
+                                <h4 class="profile-bank-name">Punjab National Bank</h4>
+                                <p class="profile-bank-sub">A/c •••• 1467 &bull; BHIM UPI</p>
+                            </div>
+                        </div>
+                        <span class="profile-qr-scan-badge">Scan &amp; Pay</span>
+                    </div>
+
+                    <!-- QR Code Render Container -->
+                    <div class="profile-qr-canvas-box">
+                        <div id="profile-qr-code"></div>
+                        <div class="profile-qr-center-logo">
+                            <span>पे</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-qr-upi-copy-row">
+                        <div class="profile-qr-upi-text">
+                            <span class="upi-label">UPI ID:</span>
+                            <strong class="upi-value" id="profile-qr-upi-val">8572833129@axl</strong>
+                        </div>
+                        <button class="profile-copy-btn" onclick="appInst.copyToClipboard('8572833129@axl')">
+                            <span class="material-icons">content_copy</span> Copy
+                        </button>
+                    </div>
+
+                    <div class="profile-qr-btn-group">
+                        <button class="profile-qr-btn" id="btn-profile-download-qr">
+                            <span class="material-icons">download</span> Download QR
+                        </button>
+                        <button class="profile-qr-btn" id="btn-profile-share-qr">
+                            <span class="material-icons">share</span> Share QR
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Theme Switcher Card -->
+                <div class="profile-setting-card theme-card">
+                    <div class="profile-section-title-row">
+                        <div class="section-title-with-icon">
+                            <span class="material-icons theme-title-icon">palette</span>
+                            <div>
+                                <h4 class="profile-setting-title">App Theme</h4>
+                                <p class="profile-setting-sub">Switch between Dark and Light mode</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="theme-options-grid">
+                        <div class="theme-option-box active" id="theme-btn-dark" onclick="appInst.setTheme('dark')">
+                            <div class="theme-option-preview preview-dark">
+                                <div class="theme-preview-header"></div>
+                                <div class="theme-preview-body">
+                                    <div class="theme-preview-card"></div>
+                                    <div class="theme-preview-card sm"></div>
+                                </div>
+                            </div>
+                            <div class="theme-option-label-row">
+                                <div class="theme-label-group">
+                                    <span class="material-icons">dark_mode</span>
+                                    <span>Dark Theme</span>
+                                </div>
+                                <span class="material-icons theme-check-icon" id="theme-check-dark">radio_button_checked</span>
+                            </div>
+                        </div>
+
+                        <div class="theme-option-box" id="theme-btn-light" onclick="appInst.setTheme('light')">
+                            <div class="theme-option-preview preview-light">
+                                <div class="theme-preview-header"></div>
+                                <div class="theme-preview-body">
+                                    <div class="theme-preview-card"></div>
+                                    <div class="theme-preview-card sm"></div>
+                                </div>
+                            </div>
+                            <div class="theme-option-label-row">
+                                <div class="theme-label-group">
+                                    <span class="material-icons">light_mode</span>
+                                    <span>Light Theme</span>
+                                </div>
+                                <span class="material-icons theme-check-icon" id="theme-check-light">radio_button_unchecked</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods Section -->
+                <div class="profile-setting-card">
+                    <h4 class="profile-group-header">Payment Methods &amp; Accounts</h4>
+                    
+                    <div class="profile-list-item" onclick="router.navigate('check-balance')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle bank-icon-circle">
+                                <span>🏦</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">Punjab National Bank - 1467</p>
+                                <p class="profile-item-secondary">Primary Bank Account &bull; Check Balance</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="profile-list-item" onclick="router.navigate('check-balance')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle bank-icon-circle">
+                                <span>🏛️</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">Sarva Haryana Gramin Bank - 1467</p>
+                                <p class="profile-item-secondary">Savings Account</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="profile-list-item" onclick="appInst.showToast('PhonePe Wallet: ₹0.00')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle wallet-icon-circle">
+                                <span class="material-icons">account_balance_wallet</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">PhonePe Wallet</p>
+                                <p class="profile-item-secondary">Balance: ₹0.00 &bull; Top-up Wallet</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="profile-list-item" onclick="appInst.showToast('Add Bank Account is in verification mode')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle add-icon-circle">
+                                <span class="material-icons">add</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary" style="color:var(--accent-purple-light);">Add New Bank Account</p>
+                                <p class="profile-item-secondary">Link accounts with registered mobile number</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+                </div>
+
+                <!-- Support & Help Section -->
+                <div class="profile-setting-card">
+                    <h4 class="profile-group-header">Support &amp; Help Desk</h4>
+
+                    <div class="profile-list-item" onclick="appInst.openHelpModal()">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle support-icon-circle">
+                                <span class="material-icons">support_agent</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">24x7 Help Desk &amp; FAQs</p>
+                                <p class="profile-item-secondary">Transaction issues, UPI help, complaints</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="profile-list-item" onclick="appInst.openTicketModal()">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle ticket-icon-circle">
+                                <span class="material-icons">confirmation_number</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">My Support Tickets</p>
+                                <p class="profile-item-secondary">Track previous queries and dispute status</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="profile-list-item" onclick="appInst.callHelpline()">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle call-icon-circle">
+                                <span class="material-icons">phone_in_talk</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">Customer Care Helpline</p>
+                                <p class="profile-item-secondary">080-68727374 / 022-68727374 (24x7)</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+                </div>
+
+                <!-- Policies, Terms & Legal Section -->
+                <div class="profile-setting-card">
+                    <h4 class="profile-group-header">Terms, Policies &amp; Legal</h4>
+
+                    <div class="profile-list-item" onclick="appInst.openPolicyModal('terms')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle policy-icon-circle">
+                                <span class="material-icons">description</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">Terms &amp; Conditions</p>
+                                <p class="profile-item-secondary">User agreement, UPI procedural rules</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="profile-list-item" onclick="appInst.openPolicyModal('privacy')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle policy-icon-circle">
+                                <span class="material-icons">shield</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">Privacy Policy</p>
+                                <p class="profile-item-secondary">How your data is stored and encrypted</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="profile-list-item" onclick="appInst.openPolicyModal('grievance')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle policy-icon-circle">
+                                <span class="material-icons">gavel</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">Grievance Redressal Policy</p>
+                                <p class="profile-item-secondary">RBI ombudsman &amp; nodal officer details</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="profile-list-item" onclick="appInst.openPolicyModal('security')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle policy-icon-circle">
+                                <span class="material-icons">lock</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">Security &amp; Fraud Prevention</p>
+                                <p class="profile-item-secondary">Safe banking tips, NPCI guidelines</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+                </div>
+
+                <!-- Security & Preferences -->
+                <div class="profile-setting-card">
+                    <h4 class="profile-group-header">Preferences &amp; Security</h4>
+
+                    <div class="profile-list-item" onclick="appInst.toggleBiometrics()">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle sec-icon-circle">
+                                <span class="material-icons">fingerprint</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">Screen Lock &amp; Biometrics</p>
+                                <p class="profile-item-secondary">Require fingerprint or passcode on launch</p>
+                            </div>
+                        </div>
+                        <div class="profile-toggle-switch active" id="toggle-biometrics">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-list-item" onclick="router.navigate('check-balance')">
+                        <div class="profile-item-left">
+                            <div class="profile-item-icon-circle sec-icon-circle">
+                                <span class="material-icons">pin</span>
+                            </div>
+                            <div>
+                                <p class="profile-item-primary">UPI PIN Management</p>
+                                <p class="profile-item-secondary">Reset or change UPI PIN</p>
+                            </div>
+                        </div>
+                        <span class="material-icons profile-chevron">chevron_right</span>
+                    </div>
+                </div>
+
+                <!-- App Information & Logout -->
+                <div class="profile-footer-card">
+                    <div class="profile-app-version">
+                        <span class="pe-mini-badge">पे</span>
+                        <span>PhonePe Version 24.10.4 &bull; Made in India ❤️</span>
+                    </div>
+                    <button class="profile-logout-btn" onclick="appInst.showLogoutModal()">
+                        <span class="material-icons">logout</span> Log Out
+                    </button>
+                </div>
+
+                <div style="height:40px;"></div>
+            </div>
+        </div>
+
+        <!-- MODAL: HELP & SUPPORT -->
+        <div id="modal-help" class="phonepe-bottom-modal">
+            <div class="modal-backdrop" onclick="appInst.closeHelpModal()"></div>
+            <div class="modal-sheet">
+                <div class="modal-sheet-handle"></div>
+                <div class="modal-sheet-header">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span class="material-icons" style="color:var(--accent-purple-light);">support_agent</span>
+                        <h3>PhonePe 24x7 Help Center</h3>
+                    </div>
+                    <span class="material-icons modal-close-btn" onclick="appInst.closeHelpModal()">close</span>
+                </div>
+                <div class="modal-sheet-body">
+                    <p class="modal-help-intro">How can we help you today?</p>
+                    <div class="faq-list">
+                        <div class="faq-item" onclick="appInst.showFaqAnswer(this)">
+                            <div class="faq-question">
+                                <span>Money debited but not credited to recipient?</span>
+                                <span class="material-icons faq-arrow">expand_more</span>
+                            </div>
+                            <div class="faq-answer">
+                                UPI transactions are instant. In rare banking server delays, money is automatically settled or refunded to your bank account within 24 to 48 hours according to RBI guidelines.
+                            </div>
+                        </div>
+                        <div class="faq-item" onclick="appInst.showFaqAnswer(this)">
+                            <div class="faq-question">
+                                <span>How do I change or reset my UPI PIN?</span>
+                                <span class="material-icons faq-arrow">expand_more</span>
+                            </div>
+                            <div class="faq-answer">
+                                Go to Profile &gt; Payment Methods &gt; Select your Bank Account &gt; Click 'Reset UPI PIN'. Enter the last 6 digits of your debit card and expiry date, then enter the OTP to set a new PIN.
+                            </div>
+                        </div>
+                        <div class="faq-item" onclick="appInst.showFaqAnswer(this)">
+                            <div class="faq-question">
+                                <span>How to report an unauthorized or fraud transaction?</span>
+                                <span class="material-icons faq-arrow">expand_more</span>
+                            </div>
+                            <div class="faq-answer">
+                                Call our 24x7 helpline 080-68727374 immediately or block UPI access via your bank. PhonePe will never ask for your UPI PIN, OTP, or passwords.
+                            </div>
+                        </div>
+                        <div class="faq-item" onclick="appInst.showFaqAnswer(this)">
+                            <div class="faq-question">
+                                <span>Why did my payment fail due to technical error?</span>
+                                <span class="material-icons faq-arrow">expand_more</span>
+                            </div>
+                            <div class="faq-answer">
+                                Payment failures usually occur due to temporary bank server downtime, insufficient balance, or entering an incorrect UPI PIN. Any deducted money will be reversed automatically.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-contact-box">
+                        <p>Still need assistance?</p>
+                        <button class="modal-call-btn" onclick="appInst.callHelpline()">
+                            <span class="material-icons">phone</span> Call Support: 080-68727374
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: TERMS & POLICIES VIEWER -->
+        <div id="modal-policy" class="phonepe-bottom-modal">
+            <div class="modal-backdrop" onclick="appInst.closePolicyModal()"></div>
+            <div class="modal-sheet">
+                <div class="modal-sheet-handle"></div>
+                <div class="modal-sheet-header">
+                    <h3 id="policy-modal-title">Terms &amp; Conditions</h3>
+                    <span class="material-icons modal-close-btn" onclick="appInst.closePolicyModal()">close</span>
+                </div>
+                <div class="modal-sheet-body" id="policy-modal-content">
+                    <!-- Injected dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM NAVIGATION -->
+        <nav class="bottom-nav" id="bottom-nav">
+            <div class="nav-item active" data-page="home">
+                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" data-page="search">
+                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"/>
+                    <line x1="16.5" y1="16.5" x2="21.5" y2="21.5"/>
+                </svg>
+                <span>Search</span>
+            </div>
+            <div class="nav-item qr-nav-item" data-page="scan" aria-label="Scan QR">
+                <div class="qr-fab-wrapper">
+                    <div class="qr-fab" title="Scan any QR">
+                        <svg class="qr-fab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 8.5V6a2 2 0 0 1 2-2h2.5"/>
+                            <path d="M15.5 4H18a2 2 0 0 1 2 2v2.5"/>
+                            <path d="M4 15.5V18a2 2 0 0 0 2 2h2.5"/>
+                            <path d="M15.5 20H18a2 2 0 0 0 2-2v-2.5"/>
+                            <rect x="7.5" y="7.5" width="3.2" height="3.2" rx="0.8" fill="currentColor" stroke="none"/>
+                            <rect x="13.3" y="7.5" width="3.2" height="3.2" rx="0.8" fill="currentColor" stroke="none"/>
+                            <rect x="7.5" y="13.3" width="3.2" height="3.2" rx="0.8" fill="currentColor" stroke="none"/>
+                            <rect x="13.3" y="13.3" width="3.2" height="3.2" rx="0.8" fill="currentColor" stroke="none"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item" data-page="alerts">
+                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span>Alerts</span>
+            </div>
+            <div class="nav-item" data-page="history">
+                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"/>
+                    <polyline points="12 7 12 12 15.5 12"/>
+                </svg>
+                <span>History</span>
+            </div>
+        </nav>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/storage.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/qrscanner.js"></script>
+    <script src="js/payments.js"></script>
+</body>
+</html>
