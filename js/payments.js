@@ -367,9 +367,9 @@ class PaymentFlow {
     const name = tx ? tx.name : 'Amit pal';
     const upi = tx ? tx.upiId : 'Q529411980@ybl';
     const amount = tx ? tx.amount : 100;
-    const txId = tx ? tx.id : 'T261004160406594265929';
+    const txId = tx ? tx.id : 'T2610041604065942465929';
     const utr = tx ? tx.utr || '700209963974' : '700209963974';
-    const dateObj = tx && tx.date ? new Date(tx.date) : new Date();
+    const dateObj = tx && tx.date ? new Date(tx.date) : new Date('2026-10-04T16:04:00+05:30');
 
     // Format Date & Time: 04:04 PM on 04 Oct 2026
     const timeStr = dateObj.toLocaleTimeString('en-US', {

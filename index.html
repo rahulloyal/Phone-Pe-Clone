@@ -23,11 +23,21 @@
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/animations.css">
     
-    <!-- jsQR CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <!-- jsQR Local & CDN Fallback -->
+    <script src="js/jsqr.min.js"></script>
+    <script>
+      if (typeof window.jsQR === 'undefined') {
+        document.write('<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"><\/script>');
+      }
+    </script>
     
-    <!-- QRCode CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <!-- QRCode Local & CDN Fallback -->
+    <script src="js/qrcode.min.js"></script>
+    <script>
+      if (typeof window.QRCode === 'undefined') {
+        document.write('<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script>');
+      }
+    </script>
 </head>
 <body>
     <div id="app-container">
@@ -838,7 +848,7 @@
             </div>
 
             <div id="view-scan" class="scan-camera-viewport">
-                <video id="qr-video" autoplay playsinline class="scan-video-stream"></video>
+                <video id="qr-video" autoplay playsinline muted class="scan-video-stream"></video>
                 <canvas id="qr-canvas" hidden></canvas>
                 
                 <!-- Semi-transparent vignette mask -->
@@ -859,6 +869,12 @@
                     <div class="scanner-flash-indicator" id="scanner-flash-indicator"></div>
                 </div>
 
+                <!-- Live Guidance / Status Pill -->
+                <div class="scanner-guide-pill" id="scanner-status-pill">
+                    <span class="material-icons guide-icon">qr_code_scanner</span>
+                    <span id="scanner-guide-text">Align QR code inside frame</span>
+                </div>
+
                 <!-- Circular Actions: Upload QR & Torch -->
                 <div class="scanner-controls-row">
                     <div class="scanner-circle-action-item" id="btn-gallery" title="Upload QR image">
@@ -875,6 +891,14 @@
                         </div>
                         <span class="scanner-action-label">Torch</span>
                     </div>
+                </div>
+
+                <!-- Instant Auto-Detect Action Button -->
+                <div class="scanner-auto-action-wrap">
+                    <button type="button" class="scanner-auto-btn" id="btn-auto-detect-qr">
+                        <span class="material-icons">bolt</span>
+                        <span>Auto-Detect Payment QR</span>
+                    </button>
                 </div>
 
                 <!-- Bottom Watermark: BHIM UPI (Matching Image 1) -->
@@ -1231,7 +1255,7 @@
             </div>
         </div>
 
-        <!-- 12. TRANSACTION DETAIL SCREEN (Matching Image 5) -->
+        <!-- 12. TRANSACTION DETAIL SCREEN (Matching Image 2) -->
         <div id="page-tx-detail" class="page">
             <div class="txd-success-green-bar" id="txd-header-bar">
                 <span class="material-icons txd-back-arrow" data-action="back" onclick="router.navigate('home')">arrow_back</span>
@@ -1242,8 +1266,9 @@
             </div>
 
             <div class="txd-card-container">
-                <!-- Paid to Card (Image 5) -->
-                <div class="txd-dark-card txd-paid-to-card">
+                <!-- Main Card: Paid to, Payment Details, Bank Debited & 4 Action Buttons (Image 2) -->
+                <div class="txd-dark-card txd-main-card">
+                    <!-- Paid to Section -->
                     <div class="txd-card-top-label">Paid to</div>
                     <div class="txd-paid-to-row">
                         <div class="txd-person-info">
@@ -1257,10 +1282,11 @@
                         </div>
                         <div class="txd-amount-display" id="txd-amount">₹100</div>
                     </div>
-                </div>
 
-                <!-- Payment Details Card (Image 5) -->
-                <div class="txd-dark-card txd-details-card">
+                    <!-- Inner Divider -->
+                    <div class="txd-inner-divider"></div>
+
+                    <!-- Payment Details Header with Chevron -->
                     <div class="txd-details-accordion-head">
                         <div class="txd-head-left">
                             <span class="material-icons txd-receipt-icon">receipt_long</span>
@@ -1269,27 +1295,24 @@
                         <span class="material-icons txd-chevron-toggle">expand_less</span>
                     </div>
 
-                    <!-- Transaction ID Row -->
-                    <div class="txd-info-row">
-                        <span class="txd-info-label">PhonePe Transaction ID</span>
-                        <div class="txd-info-val-group">
-                            <span id="txd-txid">T261004160406594265929</span>
-                            <span class="material-icons txd-copy-btn" onclick="appInst.copyToClipboard(document.getElementById('txd-txid').textContent)">content_copy</span>
+                    <!-- PhonePe Transaction ID Row -->
+                    <div class="txd-txid-block">
+                        <div class="txd-info-label">PhonePe Transaction ID</div>
+                        <div class="txd-info-val-row">
+                            <span id="txd-txid">T2610041604065942465929</span>
+                            <span class="material-icons txd-copy-btn" onclick="appInst.copyToClipboard(document.getElementById('txd-txid').textContent)" title="Copy ID">content_copy</span>
                         </div>
                     </div>
 
-                    <div class="txd-details-inner-divider"></div>
-
-                    <!-- Debited from Bank Row -->
+                    <!-- Debited from Bank Section -->
                     <div class="txd-debited-block">
                         <div class="txd-info-label">Debited from</div>
                         <div class="txd-bank-row-main">
                             <div class="txd-bank-left">
                                 <div class="txd-bank-logo-box" id="txd-bank-logo">
-                                    <!-- Yellow PNB / SHGB Logo -->
                                     <svg viewBox="0 0 100 100" class="txd-pnb-logo-svg">
                                         <rect width="100" height="100" rx="14" fill="#fbbf24"/>
-                                        <path d="M26 22 L55 22 C68 22 76 29 76 39 C76 49 68 56 55 56 L40 56 L40 78 L26 78 Z M40 34 L40 44 L53 44 C58 44 62 42 62 39 C62 36 58 34 53 34 Z" fill="#7a1326"/>
+                                        <path d="M26 22 H54 C68 22 76 30 76 40 C76 50 68 58 54 58 H40 V78 H26 Z M40 34 V46 H52 C57 46 61 44 61 40 C61 36 57 34 52 34 Z" fill="#7a1326"/>
                                     </svg>
                                 </div>
                                 <span class="txd-bank-acc-mask" id="txd-bank">8105XXXXXX1467</span>
@@ -1298,41 +1321,44 @@
                         </div>
                         <div class="txd-utr-subrow">
                             <span>UTR: <span id="txd-utr">700209963974</span></span>
-                            <span class="material-icons txd-copy-btn" onclick="appInst.copyToClipboard(document.getElementById('txd-utr').textContent)">content_copy</span>
+                            <span class="material-icons txd-copy-btn" onclick="appInst.copyToClipboard(document.getElementById('txd-utr').textContent)" title="Copy UTR">content_copy</span>
+                        </div>
+                    </div>
+
+                    <!-- Inner Divider -->
+                    <div class="txd-inner-divider"></div>
+
+                    <!-- 4 Action Buttons Row: Pay Again, View History, Split Expense, Share Receipt -->
+                    <div class="txd-actions-4grid">
+                        <div class="txd-action-circle-item" onclick="router.navigate('pay', false, { name:'Amit pal', upi:'Q529411980@ybl', amount:100 })">
+                            <div class="txd-action-btn-circle">
+                                <span class="material-icons">north_east</span>
+                            </div>
+                            <span>Pay Again</span>
+                        </div>
+                        <div class="txd-action-circle-item" onclick="router.navigate('history')">
+                            <div class="txd-action-btn-circle">
+                                <span class="material-icons">schedule</span>
+                            </div>
+                            <span>View History</span>
+                        </div>
+                        <div class="txd-action-circle-item" onclick="appInst.showToast('Expense split link created!')">
+                            <div class="txd-action-btn-circle">
+                                <span class="material-icons">call_split</span>
+                            </div>
+                            <span>Split Expense</span>
+                        </div>
+                        <div class="txd-action-circle-item" onclick="appInst.showToast('Receipt shared successfully!')">
+                            <div class="txd-action-btn-circle">
+                                <span class="material-icons">share</span>
+                            </div>
+                            <span>Share Receipt</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 4 Action Buttons in Row (Image 5) -->
-                <div class="txd-actions-4grid">
-                    <div class="txd-action-circle-item" onclick="router.navigate('pay')">
-                        <div class="txd-action-btn-circle">
-                            <span class="material-icons">north_east</span>
-                        </div>
-                        <span>Pay Again</span>
-                    </div>
-                    <div class="txd-action-circle-item" onclick="router.navigate('history')">
-                        <div class="txd-action-btn-circle">
-                            <span class="material-icons">schedule</span>
-                        </div>
-                        <span>View History</span>
-                    </div>
-                    <div class="txd-action-circle-item" onclick="appInst.showToast('Expense split link created!')">
-                        <div class="txd-action-btn-circle">
-                            <span class="material-icons">call_split</span>
-                        </div>
-                        <span>Split Expense</span>
-                    </div>
-                    <div class="txd-action-circle-item" onclick="appInst.showToast('Receipt shared!')">
-                        <div class="txd-action-btn-circle">
-                            <span class="material-icons">share</span>
-                        </div>
-                        <span>Share Receipt</span>
-                    </div>
-                </div>
-
-                <!-- Contact Support Pill (Image 5) -->
-                <div class="txd-support-pill" onclick="appInst.showToast('Connecting to PhonePe 24x7 Support...')">
+                <!-- Card 2: Contact PhonePe Support (Image 2) -->
+                <div class="txd-support-pill" onclick="appInst.openHelpModal()">
                     <div class="txd-support-left">
                         <span class="material-icons txd-help-bubble-icon">help_outline</span>
                         <span>Contact PhonePe Support</span>
@@ -1340,22 +1366,25 @@
                     <span class="material-icons txd-support-chevron">chevron_right</span>
                 </div>
 
-                <!-- Footer: Powered by UPI + Axis Bank (Image 5) -->
+                <!-- Footer: Powered by UPI + Axis Bank (Image 2) -->
                 <div class="txd-footer-powered">
                     <div class="txd-powered-label">Powered by</div>
                     <div class="txd-powered-logos">
-                        <span class="txd-bhim-upi-brand">
-                            <span class="bhim-txt">BHIM</span>
-                            <span class="upi-txt">UPI</span>
-                        </span>
+                        <div class="txd-upi-brand">
+                            <span class="txd-upi-text">UPI</span>
+                            <span class="txd-upi-arrows">
+                                <span class="txd-arrow-orange">▶</span>
+                                <span class="txd-arrow-green">▶</span>
+                            </span>
+                        </div>
                         <span class="txd-powered-pipe">|</span>
-                        <span class="txd-axis-brand">
+                        <div class="txd-axis-brand">
                             <svg class="axis-svg-mini" viewBox="0 0 100 24" width="75" height="18">
                                 <polygon points="6,20 14,4 22,20" fill="#97144d"/>
                                 <polygon points="10,20 14,11 18,20" fill="#ffffff"/>
                                 <text x="27" y="17" font-family="'Inter', sans-serif" font-weight="800" font-size="12" fill="#97144d" letter-spacing="0.5">AXIS BANK</text>
                             </svg>
-                        </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1432,14 +1461,19 @@
             </div>
         </div>
 
-        <!-- 14. CHECK BALANCE / UPI PIN PAD SCREEN (Matching Image 4) -->
+        <!-- 14. CHECK BALANCE / UPI PIN PAD SCREEN (Matching Image 3) -->
         <div id="page-check-balance" class="page light-theme">
             <div class="pin-screen-top-area">
                 <div class="pin-top-bar">
                     <div class="pin-upi-branding">
-                        <span class="pin-upi-text">UPI</span>
-                        <span class="pin-upi-arrow-orange">▶</span>
-                        <span class="pin-upi-arrow-green">▶</span>
+                        <div class="pin-upi-logo-wrap">
+                            <span class="pin-upi-text">UPI</span>
+                            <span class="pin-upi-arrows">
+                                <span class="pin-upi-arrow-orange">▶</span>
+                                <span class="pin-upi-arrow-green">▶</span>
+                            </span>
+                        </div>
+                        <span class="pin-upi-subtext">UNIFIED PAYMENTS INTERFACE</span>
                     </div>
                     <span class="material-icons pin-close-icon" data-action="back" onclick="router.goBack()">close</span>
                 </div>
@@ -1448,12 +1482,14 @@
                     SAVINGS: Sarva Haryana Gramin Bank - 1467
                 </div>
 
-                <!-- Info Card (Image 4) -->
+                <!-- Info Card (Image 3) -->
                 <div class="pin-info-card">
                     <p id="pin-info-text">You are checking your account balance</p>
                     <div class="pin-rupee-icon-badge" id="pin-rupee-badge">
-                        <span class="pin-rupee-symbol">₹</span>
-                        <span class="pin-rupee-q">?</span>
+                        <svg viewBox="0 0 34 28" width="34" height="28" fill="none" stroke="#1e293b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="30" height="24" rx="5"/>
+                            <text x="17" y="18" fill="#1e293b" stroke="none" font-family="'Inter', sans-serif" font-weight="700" font-size="13" text-anchor="middle">₹?</text>
+                        </svg>
                     </div>
                 </div>
 
@@ -1468,7 +1504,7 @@
                         <div class="pin-circle-outline"></div>
                     </div>
                     <div class="pin-warning-msg">
-                        <span class="material-icons">info</span>
+                        <span class="material-icons pin-warn-icon">info</span>
                         <span>Never enter your UPI PIN to receive money</span>
                     </div>
                 </div>
@@ -1900,48 +1936,48 @@
             </div>
         </div>
 
-        <!-- BOTTOM NAVIGATION -->
+        <!-- BOTTOM NAVIGATION (Matching Image 1) -->
         <nav class="bottom-nav" id="bottom-nav">
             <div class="nav-item active" data-page="home">
                 <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    <path d="M12 3L2 12h3v8a1 1 0 0 0 1 1h4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5h4a1 1 0 0 0 1-1v-8h3L12 3z"/>
                 </svg>
                 <span>Home</span>
             </div>
             <div class="nav-item" data-page="search">
-                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="7"/>
-                    <line x1="16.5" y1="16.5" x2="21.5" y2="21.5"/>
+                    <line x1="16.2" y1="16.2" x2="21" y2="21"/>
                 </svg>
                 <span>Search</span>
             </div>
             <div class="nav-item qr-nav-item" data-page="scan" aria-label="Scan QR">
                 <div class="qr-fab-wrapper">
                     <div class="qr-fab" title="Scan any QR">
-                        <svg class="qr-fab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="qr-fab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 8.5V6a2 2 0 0 1 2-2h2.5"/>
                             <path d="M15.5 4H18a2 2 0 0 1 2 2v2.5"/>
                             <path d="M4 15.5V18a2 2 0 0 0 2 2h2.5"/>
                             <path d="M15.5 20H18a2 2 0 0 0 2-2v-2.5"/>
-                            <rect x="7.5" y="7.5" width="3.2" height="3.2" rx="0.8" fill="currentColor" stroke="none"/>
-                            <rect x="13.3" y="7.5" width="3.2" height="3.2" rx="0.8" fill="currentColor" stroke="none"/>
-                            <rect x="7.5" y="13.3" width="3.2" height="3.2" rx="0.8" fill="currentColor" stroke="none"/>
-                            <rect x="13.3" y="13.3" width="3.2" height="3.2" rx="0.8" fill="currentColor" stroke="none"/>
+                            <rect x="7.2" y="7.2" width="3.4" height="3.4" rx="0.9" fill="currentColor" stroke="none"/>
+                            <rect x="13.4" y="7.2" width="3.4" height="3.4" rx="0.9" fill="currentColor" stroke="none"/>
+                            <rect x="7.2" y="13.4" width="3.4" height="3.4" rx="0.9" fill="currentColor" stroke="none"/>
+                            <rect x="13.4" y="13.4" width="3.4" height="3.4" rx="0.9" fill="currentColor" stroke="none"/>
                         </svg>
                     </div>
                 </div>
             </div>
             <div class="nav-item" data-page="alerts">
-                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                 </svg>
                 <span>Alerts</span>
             </div>
             <div class="nav-item" data-page="history">
-                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="9"/>
-                    <polyline points="12 7 12 12 15.5 12"/>
+                    <polyline points="12 7 12 12 15 12"/>
                 </svg>
                 <span>History</span>
             </div>

@@ -38,9 +38,9 @@ class StorageService {
       const now = Date.now();
       this.set('transactions', [
         {
-          id: 'T261004160406594265929', type: 'sent', name: 'Amit pal',
+          id: 'T2610041604065942465929', type: 'sent', name: 'Amit pal',
           upiId: 'Q529411980@ybl', amount: 100, status: 'success',
-          date: new Date(now - 38*60*1000).toISOString(),
+          date: '2026-10-04T16:04:00+05:30',
           bankId: 'pnb', utr: '700209963974', note: ''
         },
         {

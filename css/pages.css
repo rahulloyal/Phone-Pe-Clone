@@ -778,131 +778,7 @@
   color: #1a1a1a;
   position: relative;
 }
-.pin-top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e5ea;
-}
-.pin-upi-logo {
-  font-size: 20px;
-  font-weight: 800;
-  font-style: italic;
-  color: #2b3a4a;
-  letter-spacing: 0.5px;
-}
-.pin-close-icon {
-  font-size: 24px;
-  color: #4a5568;
-  cursor: pointer;
-}
-.pin-account-bar {
-  background: #ffffff;
-  padding: 10px 20px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #2d3748;
-  border-bottom: 1px solid #e2e5ea;
-}
-.pin-info-card {
-  margin: 16px 20px;
-  background: #e2e8f0;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.pin-info-card p {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a202c;
-  max-width: 200px;
-}
-.pin-center-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 30px 0;
-}
-.pin-enter-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1a202c;
-  margin-bottom: 20px;
-}
-.pin-circles-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 30px;
-}
-.pin-circle-outline {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid #718096;
-  background: transparent;
-  transition: all 0.15s ease;
-}
-.pin-circle-outline.filled {
-  background: #1a202c;
-  border-color: #1a202c;
-}
-.pin-warning-msg {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #718096;
-}
-.pin-warning-msg .material-icons {
-  font-size: 16px;
-  color: #dd6b20;
-}
-
-/* Rounded Pill Numeric Keypad */
-.pin-keypad-panel {
-  background: #dfe3ea;
-  padding: 14px 16px 24px;
-  border-radius: 24px 24px 0 0;
-}
-.pin-key-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  max-width: 360px;
-  margin: 0 auto;
-}
-.pin-pill-key {
-  background: #ffffff;
-  border-radius: 28px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 500;
-  color: #1a202c;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  user-select: none;
-}
-.pin-pill-key:active {
-  background: #edf2f7;
-  transform: scale(0.96);
-}
-.pin-pill-key.key-backspace {
-  background: #c7d0de;
-  color: #2d3748;
-}
-.pin-pill-key.key-check {
-  background: #103b7b;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-}
+/* (UPI PIN Pad styles consolidated in SECTION: CHECK BALANCE / UPI PIN PAD SCREEN) */
 
 /* 6. PAYMENT FAILED SCREEN */
 #page-payment-failed {
@@ -1020,156 +896,7 @@
   background: #000000;
   min-height: 100vh;
 }
-.txd-success-green-bar {
-  background: #008739;
-  padding: 16px;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.txd-success-green-bar.failed {
-  background: #b91c1c;
-}
-.txd-green-header-info h3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
-}
-.txd-green-header-info p {
-  font-size: 12px;
-  color: #d1fae5;
-}
-.txd-card-container {
-  padding: 16px;
-}
-.txd-dark-card {
-  background: #141418;
-  border: 1px solid #24242d;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-.txd-paid-to-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.txd-person-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.txd-person-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #6d28d9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 700;
-}
-.txd-person-text h4 {
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffffff;
-}
-.txd-person-text p {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-.txd-amount-display {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-}
-.txd-details-accordion-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-}
-.txd-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-top: 1px solid #1f1f26;
-  font-size: 13px;
-}
-.txd-info-label {
-  color: #8e8e96;
-}
-.txd-info-val {
-  color: #ffffff;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.txd-info-val .material-icons {
-  font-size: 16px;
-  color: #8e54e9;
-  cursor: pointer;
-}
-.txd-actions-4grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin: 16px 0 24px;
-}
-.txd-action-circle-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 6px;
-  cursor: pointer;
-}
-.txd-action-btn-circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #37235a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #8e54e9;
-}
-.txd-action-btn-circle .material-icons {
-  font-size: 22px;
-}
-.txd-action-circle-item span {
-  font-size: 11px;
-  color: #e5e5ea;
-  font-weight: 500;
-}
-.txd-support-pill {
-  background: #141418;
-  border: 1px solid #24242d;
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.txd-footer-powered {
-  text-align: center;
-  color: #71717a;
-  font-size: 11px;
-  margin-top: 30px;
-  padding-bottom: 24px;
-}
+/* (Screen 5 styles consolidated in SECTION: SCREEN: TRANSACTION SUCCESSFUL SCREEN) */
 
 /* 8. CHAT & CONVERSATION SCREEN (Wavy background payment bubbles) */
 #page-chat {
@@ -1641,12 +1368,105 @@
     height: 220px;
   }
   .scanner-controls-row {
-    top: calc(34% + 110px + 24px);
+    top: calc(34% + 110px + 20px);
     gap: 48px;
   }
   .scanner-circle-action-btn {
     width: 48px;
     height: 48px;
+  }
+}
+
+/* Scanner Guidance Status Pill */
+.scanner-guide-pill {
+  position: absolute;
+  top: calc(40% - min(140px, 39vw) - 36px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(18, 18, 24, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  padding: 6px 16px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 12.5px;
+  font-weight: 500;
+  z-index: 10;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.scanner-guide-pill .guide-icon {
+  font-size: 16px;
+  color: #c084fc;
+  animation: pulse-guide-icon 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-guide-icon {
+  0%, 100% { opacity: 0.7; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.1); color: #22c55e; }
+}
+
+/* Auto-Detect Payment Button Wrap */
+.scanner-auto-action-wrap {
+  position: absolute;
+  top: calc(40% + min(140px, 39vw) + 118px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.scanner-auto-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #673ab7, #7c3aed);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: 26px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.1px;
+  box-shadow: 0 4px 20px rgba(103, 58, 183, 0.45);
+  transition: transform 0.16s ease, background 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scanner-auto-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 24px rgba(103, 58, 183, 0.65);
+}
+
+.scanner-auto-btn:active {
+  transform: scale(0.95);
+}
+
+.scanner-auto-btn .material-icons {
+  font-size: 18px;
+  color: #facc15;
+}
+
+@media (max-height: 660px) {
+  .scanner-guide-pill {
+    top: calc(34% - 110px - 32px);
+    font-size: 11.5px;
+    padding: 5px 12px;
+  }
+  .scanner-auto-action-wrap {
+    top: calc(34% + 110px + 92px);
+  }
+  .scanner-auto-btn {
+    padding: 8px 18px;
+    font-size: 12.5px;
   }
 }
 
@@ -2297,21 +2117,39 @@
   user-select: none;
 }
 
+/* ==========================================================================
+   SCREEN: CHECK BALANCE / UPI PIN PAD SCREEN (Matching Image 3)
+   ========================================================================== */
+#page-check-balance {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+}
+
 .pin-screen-top-area {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .pin-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 16px 20px 10px;
   background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
 }
 
 .pin-upi-branding {
+  display: flex;
+  flex-direction: column;
+}
+
+.pin-upi-logo-wrap {
   display: flex;
   align-items: center;
   gap: 2px;
@@ -2321,40 +2159,63 @@
   font-size: 22px;
   font-weight: 900;
   font-style: italic;
-  color: #0f172a;
+  color: #1f2937;
   letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.pin-upi-arrows {
+  display: flex;
+  align-items: center;
+  margin-left: 2px;
 }
 
 .pin-upi-arrow-orange {
   font-size: 12px;
   color: #f97316;
+  line-height: 1;
 }
 
 .pin-upi-arrow-green {
   font-size: 12px;
   color: #16a34a;
   margin-left: -4px;
+  line-height: 1;
+}
+
+.pin-upi-subtext {
+  font-size: 6.5px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.8px;
+  margin-top: 3px;
+  text-transform: uppercase;
 }
 
 .pin-close-icon {
   font-size: 24px;
-  color: #475569;
+  color: #374151;
   cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.pin-close-icon:active {
+  transform: scale(0.9);
 }
 
 .pin-account-bar {
   background: #ffffff;
   padding: 10px 20px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #334155;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1f2937;
   border-bottom: 1px solid #e5e7eb;
 }
 
-/* Info card (Image 4) */
+/* Info card (Image 3) */
 .pin-info-card {
   margin: 16px 18px 20px;
-  background: #e9eaf2;
+  background: #eceef6;
   border-radius: 12px;
   padding: 14px 18px;
   display: flex;
@@ -2363,87 +2224,79 @@
 }
 
 .pin-info-card p {
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   color: #1e293b;
-  max-width: 240px;
+  max-width: 250px;
   line-height: 1.4;
+  margin: 0;
 }
 
 .pin-rupee-icon-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid #1e293b;
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-weight: 800;
-  color: #1e293b;
-}
-
-.pin-rupee-symbol {
-  font-size: 17px;
-}
-
-.pin-rupee-q {
-  font-size: 14px;
-  margin-left: 1px;
+  flex-shrink: 0;
 }
 
 .pin-center-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 35px 0 20px;
+  margin: 30px 0 20px;
+  flex-grow: 1;
 }
 
 .pin-enter-title {
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .pin-circles-row {
   display: flex;
   gap: 16px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .pin-circle-outline {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  border: 2px solid #64748b;
+  border: 1.8px solid #94a3b8;
   background: transparent;
-  transition: all 0.15s ease;
+  transition: all 0.12s ease;
 }
 
 .pin-circle-outline.filled {
   background: #0f172a;
   border-color: #0f172a;
-  transform: scale(1.15);
+  transform: scale(1.1);
 }
 
 .pin-warning-msg {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
-  color: #64748b;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #92400e;
   margin-top: 10px;
 }
 
-.pin-warning-msg .material-icons {
+.pin-warning-msg .pin-warn-icon {
   font-size: 16px;
-  color: #f59e0b;
+  color: #d97706;
 }
 
-/* NPCI Virtual Keypad (Image 4) */
+/* NPCI Virtual Keypad (Image 3) */
 .pin-keypad-panel {
-  background: #e1e4ed;
+  background: #e2e5ef;
   padding: 16px 14px 28px;
   border-radius: 28px 28px 0 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pin-key-grid {
@@ -2461,11 +2314,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 500;
   color: #0f172a;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   user-select: none;
   transition: transform 0.08s ease, background-color 0.1s;
 }
@@ -2476,7 +2329,7 @@
 }
 
 .pin-pill-key.key-backspace {
-  background: #cdd4e2;
+  background: #c2c7dc;
   color: #334155;
 }
 
@@ -2491,11 +2344,11 @@
   background: #0b2c69;
 }
 
-/* --------------------------------------------------------------------------
-   SCREEN 5: TRANSACTION SUCCESSFUL SCREEN (Matching Image 5)
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   SCREEN: TRANSACTION SUCCESSFUL SCREEN (Matching Image 2)
+   ========================================================================== */
 #page-tx-detail {
-  background: #0e0e12;
+  background: #121214;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -2503,8 +2356,8 @@
 }
 
 .txd-success-green-bar {
-  background: #008739;
-  padding: 16px 20px;
+  background: #0f8a3c;
+  padding: 16px 18px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -2514,6 +2367,12 @@
 .txd-back-arrow {
   font-size: 26px;
   cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.1s ease;
+}
+
+.txd-back-arrow:active {
+  transform: scale(0.9);
 }
 
 .txd-green-header-info {
@@ -2522,34 +2381,37 @@
 }
 
 .txd-green-header-info h3 {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: -0.2px;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .txd-green-header-info p {
-  font-size: 12px;
-  color: #d1fae5;
-  margin-top: 2px;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #e1faea;
+  margin-top: 3px;
 }
 
 .txd-card-container {
-  padding: 16px 18px 30px;
+  padding: 16px 16px 36px;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.txd-dark-card {
-  background: #17171d;
-  border: 1px solid #23232c;
-  border-radius: 14px;
-  padding: 16px 18px;
+/* Main Unified Dark Card (Image 2) */
+.txd-dark-card.txd-main-card {
+  background: #1c1c1e;
+  border: 1px solid #28282c;
+  border-radius: 16px;
+  padding: 18px 16px 20px;
 }
 
-/* Paid to Card (Image 5) */
 .txd-card-top-label {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 600;
   color: #ffffff;
   margin-bottom: 12px;
@@ -2564,54 +2426,64 @@
 .txd-person-info {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .txd-purple-user-avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #8b5cf6;
+  background: #8247e5;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
+  flex-shrink: 0;
 }
 
 .txd-purple-user-avatar .material-icons {
-  font-size: 26px;
+  font-size: 28px;
 }
 
 .txd-person-text h4 {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
-  margin-bottom: 2px;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .txd-person-text p {
   font-size: 13px;
+  font-weight: 400;
   color: #9ca3af;
+  margin-top: 2px;
 }
 
 .txd-amount-display {
-  font-size: 21px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 700;
   color: #ffffff;
 }
 
-/* Payment Details Accordion Card (Image 5) */
+.txd-inner-divider {
+  height: 1px;
+  background: #2c2c30;
+  margin: 16px 0;
+}
+
+/* Payment Details Accordion Head */
 .txd-details-accordion-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .txd-head-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   color: #ffffff;
 }
 
@@ -2621,59 +2493,63 @@
 }
 
 .txd-head-title {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 600;
+  color: #ffffff;
 }
 
 .txd-chevron-toggle {
   color: #ffffff;
-  font-size: 24px;
-}
-
-.txd-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  font-size: 13px;
-}
-
-.txd-info-label {
-  color: #9ca3af;
-  font-size: 12.5px;
-}
-
-.txd-info-val-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 12.5px;
-}
-
-.txd-copy-btn {
-  font-size: 16px;
-  color: #8b5cf6;
+  font-size: 22px;
   cursor: pointer;
 }
 
-.txd-details-inner-divider {
-  height: 1px;
-  background: #23232c;
-  margin: 14px 0;
+/* PhonePe Transaction ID */
+.txd-txid-block {
+  margin-bottom: 14px;
 }
 
-.txd-debited-block {
+.txd-info-label {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #8e8e93;
+}
+
+.txd-info-val-row {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+#txd-txid {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+}
+
+.txd-copy-btn {
+  font-size: 18px;
+  color: #a78bfa;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.txd-copy-btn:active {
+  transform: scale(0.9);
+}
+
+/* Debited from Bank */
+.txd-debited-block {
+  margin-top: 6px;
 }
 
 .txd-bank-row-main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 8px 0;
+  margin: 6px 0 4px;
 }
 
 .txd-bank-left {
@@ -2683,74 +2559,72 @@
 }
 
 .txd-bank-logo-box {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 6px;
-  overflow: hidden;
-  background: #fbbf24;
+  background: #ffffff;
+  padding: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
 }
 
 .txd-pnb-logo-svg {
   width: 100%;
   height: 100%;
+  border-radius: 4px;
 }
 
 .txd-bank-acc-mask {
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 600;
   color: #ffffff;
 }
 
 .txd-bank-amount-val {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
 }
 
 .txd-utr-subrow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  margin-top: 4px;
   font-size: 12.5px;
   color: #9ca3af;
-  margin-top: 4px;
 }
 
-/* 4 Action Buttons Grid (Image 5) */
+/* 4 Action Buttons Grid (Image 2) */
 .txd-actions-4grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  margin: 10px 0;
+  margin-top: 4px;
 }
 
 .txd-action-circle-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
   text-align: center;
+  cursor: pointer;
+  gap: 6px;
 }
 
 .txd-action-btn-circle {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: #8b5cf6;
+  background: #352554;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  color: #c084fc;
   transition: transform 0.12s ease;
-  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
-}
-
-.txd-action-circle-item:active .txd-action-btn-circle {
-  transform: scale(0.92);
 }
 
 .txd-action-btn-circle .material-icons {
@@ -2758,21 +2632,32 @@
 }
 
 .txd-action-circle-item span {
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 500;
   color: #ffffff;
+  white-space: nowrap;
 }
 
-/* Contact Support Pill (Image 5) */
+.txd-action-circle-item:active .txd-action-btn-circle {
+  transform: scale(0.92);
+  background: #2d1e47;
+}
+
+/* Contact Support Pill (Image 2) */
 .txd-support-pill {
-  background: #17171d;
-  border: 1px solid #23232c;
-  border-radius: 12px;
+  background: #1c1c1e;
+  border: 1px solid #28282c;
+  border-radius: 14px;
   padding: 16px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.txd-support-pill:active {
+  background: #252528;
 }
 
 .txd-support-left {
@@ -2794,13 +2679,14 @@
   color: #9ca3af;
 }
 
-/* Footer: Powered by UPI + Axis Bank (Image 5) */
+/* Footer: Powered by UPI + Axis Bank (Image 2) */
 .txd-footer-powered {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  margin-top: 14px;
+  margin-top: 24px;
+  padding-bottom: 24px;
 }
 
 .txd-powered-label {
@@ -2811,21 +2697,33 @@
 .txd-powered-logos {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
-.txd-bhim-upi-brand {
-  font-size: 14px;
-  font-weight: 800;
+.txd-upi-brand {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 900;
   font-style: italic;
   color: #9ca3af;
-  display: flex;
-  gap: 4px;
+  font-size: 15px;
+}
+
+.txd-arrow-orange {
+  color: #f97316;
+  font-size: 11px;
+  margin-right: -3px;
+}
+
+.txd-arrow-green {
+  color: #16a34a;
+  font-size: 11px;
 }
 
 .txd-powered-pipe {
-  color: #4b5563;
-  font-weight: 300;
+  color: #3f3f46;
+  font-size: 14px;
 }
 
 .axis-svg-mini {

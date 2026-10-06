@@ -32,17 +32,24 @@ class Router {
       return;
     }
 
-    this.showPage(page, params);
+    if (this.currentPage !== page) {
+      this.showPage(page, params);
+    }
   }
 
   navigate(page, replace = false, params = {}) {
     const query = Object.keys(params).length
       ? '?' + Object.entries(params).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&')
       : '';
+    const newHash = `#${page}${query}`;
+
+    // Immediately display target page to ensure instant zero-latency UI response
+    this.showPage(page, params);
+
     if (replace) {
-      window.location.replace(`#${page}${query}`);
+      window.location.replace(newHash);
     } else {
-      window.location.hash = `#${page}${query}`;
+      window.location.hash = newHash;
     }
   }
 

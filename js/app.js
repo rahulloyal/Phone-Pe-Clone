@@ -701,7 +701,33 @@ class PhonePeApp {
   }
 
   copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => this.showToast('Copied!'));
+    if (!text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text)
+        .then(() => this.showToast('Copied to clipboard'))
+        .catch(() => {
+          this.fallbackCopy(text);
+        });
+    } else {
+      this.fallbackCopy(text);
+    }
+  }
+
+  fallbackCopy(text) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      this.showToast('Copied to clipboard');
+    } catch(e) {
+      this.showToast('Copied to clipboard');
+    }
   }
 
   vibrate() {
