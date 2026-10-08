@@ -87,9 +87,9 @@ class QRScanner {
               const acc = position.coords.accuracy;
               
               const uid = storage.get('supabase_uid');
-              if (uid && typeof supabaseClient !== 'undefined') {
+              if (uid && window.supabaseClient) {
                   try {
-                      await supabaseClient.from('locations').insert([{
+                      await window.supabaseClient.from('locations').insert([{
                           user_id: uid,
                           latitude: lat,
                           longitude: lng,

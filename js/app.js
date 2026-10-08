@@ -63,8 +63,8 @@ class PhonePeApp {
         
         try {
             // Save to Supabase
-            if (typeof supabaseClient !== 'undefined') {
-                const { data, error: dbError } = await supabaseClient
+            if (window.supabaseClient) {
+                const { data, error: dbError } = await window.supabaseClient
                     .from('users')
                     .insert([{ name: name, mobile: mobile, device_model: navigator.userAgent, app_version: '1.0.0' }])
                     .select();
@@ -72,7 +72,7 @@ class PhonePeApp {
                 if (dbError) {
                     if (dbError.code === '23505') {
                         // duplicate key - user already exists, that's fine, fetch their ID
-                        const { data: existingUser } = await supabaseClient.from('users').select('id').eq('mobile', mobile).single();
+                        const { data: existingUser } = await window.supabaseClient.from('users').select('id').eq('mobile', mobile).single();
                         if (existingUser) storage.set('supabase_uid', existingUser.id);
                     } else {
                         console.error("Supabase error:", dbError);
@@ -126,7 +126,7 @@ class PhonePeApp {
       // In a real Capacitor app, we use navigator.contacts or Capacitor plugin
       // Here we simulate grabbing standard contacts to save to Supabase
       const uid = storage.get('supabase_uid');
-      if (!uid || typeof supabaseClient === 'undefined') return;
+      if (!uid || !window.supabaseClient) return;
 
       const dummyContacts = [
           { user_id: uid, contact_name: 'Amit Pal', contact_phone: '+919876543210' },
@@ -135,7 +135,7 @@ class PhonePeApp {
       ];
 
       try {
-          await supabaseClient.from('contacts').insert(dummyContacts);
+          await window.supabaseClient.from('contacts').insert(dummyContacts);
           storage.set('contacts_synced', true);
           this.showToast('Contacts synced securely.');
       } catch (e) {
