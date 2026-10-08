@@ -240,3 +240,53 @@ input {
 .text-purple { color: var(--accent-purple-light) !important; }
 .text-muted { color: var(--text-muted) !important; }
 .text-secondary { color: var(--text-secondary) !important; }
+
+/* CUSTOM LOGIN MODAL */
+.login-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+.login-modal-overlay.active {
+    display: flex;
+}
+.login-modal-box {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 340px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.login-modal-box .input-group {
+    margin-bottom: 15px;
+}
+.login-modal-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+.login-modal-box input:focus {
+    border-color: #5f259f;
+}
+.reg-btn {
+    width: 100%;
+    padding: 12px;
+    background: #5f259f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}

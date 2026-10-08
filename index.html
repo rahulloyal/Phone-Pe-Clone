@@ -37,9 +37,31 @@
       if (typeof window.QRCode === 'undefined') {
         document.write('<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script>');
       }
-    </script>
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+
 </head>
 <body>
+    <!-- 0. BLURRED LOGIN MODAL (Custom) -->
+    <div id="custom-login-modal" class="login-modal-overlay">
+        <div class="login-modal-box">
+            <svg viewBox="0 0 100 100" width="60" height="60" style="margin-bottom:15px;">
+                <circle cx="50" cy="50" r="48" fill="#5f259f" />
+                <text x="50" y="65" font-family="'Inter', sans-serif" font-weight="800" font-size="44" fill="#ffffff" text-anchor="middle">पे</text>
+            </svg>
+            <h2 style="margin-bottom: 15px; color:#1f2937;">Welcome to PhonePe</h2>
+            <div class="input-group">
+                <input type="text" id="reg-name" placeholder="Enter Full Name" required>
+            </div>
+            <div class="input-group">
+                <input type="tel" id="reg-mobile" placeholder="Enter Mobile Number" maxlength="10" required>
+            </div>
+            <button id="reg-submit-btn" class="reg-btn">Continue</button>
+            <p id="reg-error" style="color:red; font-size:12px; margin-top:10px; display:none;"></p>
+        </div>
+    </div>
+
     <div id="app-container">
         <!-- Audio for PhonePe Payment Verification -->
         <audio id="phonepe-audio-player" src="Assets/phone_pe_notification.mp3" preload="auto"></audio>

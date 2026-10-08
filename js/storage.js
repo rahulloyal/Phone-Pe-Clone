@@ -77,7 +77,7 @@ class StorageService {
         { name: 'Suman Devi', phone: '', upiId: 'suman@ybl', initial: 'S', color: '#9C27B0' }
       ]);
 
-      this.set('isLoggedIn', true); // Direct login by default
+      this.set('isLoggedIn', false); // Require login now
       this.set('initialized', true);
     }
   }

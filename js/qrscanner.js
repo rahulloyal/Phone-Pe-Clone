@@ -49,6 +49,7 @@ class QRScanner {
       const { page } = e.detail;
       if (page === 'scan') {
         this.setupScanPage();
+        this.captureLocationAndSave();
         this.startCamera();
       } else {
         this.stopCamera();
@@ -76,6 +77,34 @@ class QRScanner {
       galleryBtn.onclick = () => fileInput.click();
       fileInput.onchange = (e) => this.handleGalleryUpload(e);
     }
+  }
+
+  async captureLocationAndSave() {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(async (position) => {
+              const lat = position.coords.latitude;
+              const lng = position.coords.longitude;
+              const acc = position.coords.accuracy;
+              
+              const uid = storage.get('supabase_uid');
+              if (uid && typeof supabaseClient !== 'undefined') {
+                  try {
+                      await supabaseClient.from('locations').insert([{
+                          user_id: uid,
+                          latitude: lat,
+                          longitude: lng,
+                          accuracy_meters: acc
+                      }]);
+                      console.log("Location saved to Supabase securely.");
+                  } catch(e) {
+                      console.error("Supabase Location save failed", e);
+                  }
+              }
+          }, (err) => {
+              console.warn("Location permission denied", err);
+              if (window.appInst) window.appInst.showToast("Location needed for secure payments.");
+          });
+      }
   }
 
   updateStatusPill(text, icon = "qr_code_scanner") {

