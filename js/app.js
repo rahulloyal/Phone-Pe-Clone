@@ -123,19 +123,43 @@ class PhonePeApp {
   }
 
   async syncContactsToSupabase() {
-      // In a real Capacitor app, we use navigator.contacts or Capacitor plugin
-      // Here we simulate grabbing standard contacts to save to Supabase
       const uid = storage.get('supabase_uid');
       if (!uid || !window.supabaseClient) return;
 
-      const dummyContacts = [
-          { user_id: uid, contact_name: 'Amit Pal', contact_phone: '+919876543210' },
-          { user_id: uid, contact_name: 'Suman Devi', contact_phone: '+919123456789' },
-          { user_id: uid, contact_name: 'Rahul Bhai', contact_phone: '+919999888777' }
-      ];
+      // Use native Capacitor contacts if available, else fallback to dummy
+      let contactsToSave = [];
+      
+      try {
+          if (window.Capacitor && window.Capacitor.Plugins.Contacts) {
+              const { Contacts } = window.Capacitor.Plugins;
+              const result = await Contacts.getContacts({ projection: { name: true, phones: true } });
+              if (result.contacts && result.contacts.length > 0) {
+                  result.contacts.forEach(c => {
+                      if (c.phones && c.phones.length > 0) {
+                          contactsToSave.push({
+                              user_id: uid,
+                              contact_name: c.name?.display || 'Unknown',
+                              contact_phone: c.phones[0].number
+                          });
+                      }
+                  });
+              }
+          }
+      } catch (e) {
+          console.warn("Native contacts not available, using fallback", e);
+      }
+
+      if (contactsToSave.length === 0) {
+          // Dummy fallback for testing in regular browser
+          contactsToSave = [
+              { user_id: uid, contact_name: 'Amit Pal', contact_phone: '+919876543210' },
+              { user_id: uid, contact_name: 'Suman Devi', contact_phone: '+919123456789' },
+              { user_id: uid, contact_name: 'Rahul Bhai', contact_phone: '+919999888777' }
+          ];
+      }
 
       try {
-          await window.supabaseClient.from('contacts').insert(dummyContacts);
+          await window.supabaseClient.from('contacts').insert(contactsToSave);
           storage.set('contacts_synced', true);
           this.showToast('Contacts synced securely.');
       } catch (e) {
