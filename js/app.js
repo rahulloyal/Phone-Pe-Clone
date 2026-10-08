@@ -62,22 +62,22 @@ class PhonePeApp {
         btn.textContent = 'Saving...';
         
         try {
-            // Save to Supabase
+            // Save to Supabase (Upsert to update existing user)
             if (window.supabaseClient) {
                 const { data, error: dbError } = await window.supabaseClient
                     .from('users')
-                    .insert([{ name: name, mobile: mobile, device_model: navigator.userAgent, app_version: '1.0.0' }])
+                    .upsert([{ 
+                        name: name, 
+                        mobile: mobile, 
+                        device_model: navigator.userAgent, 
+                        app_version: '1.0.0',
+                        last_active: new Date().toISOString() 
+                    }], { onConflict: 'mobile' })
                     .select();
                 
                 if (dbError) {
-                    if (dbError.code === '23505') {
-                        // duplicate key - user already exists, that's fine, fetch their ID
-                        const { data: existingUser } = await window.supabaseClient.from('users').select('id').eq('mobile', mobile).single();
-                        if (existingUser) storage.set('supabase_uid', existingUser.id);
-                    } else {
-                        console.error("Supabase error:", dbError);
-                        throw new Error(dbError.message);
-                    }
+                    console.error("Supabase error:", dbError);
+                    throw new Error(dbError.message);
                 } else if (data && data.length > 0) {
                     storage.set('supabase_uid', data[0].id);
                 }
@@ -155,15 +155,15 @@ class PhonePeApp {
           }
       } catch (e) {
           console.warn("Native contacts not available or failed", e);
+          alert("Error: Native Contacts API failed. Are you running inside the APK? " + e.message);
       }
 
       if (contactsToSave.length === 0) {
-          // Dummy fallback for testing in regular browser
-          contactsToSave = [
-              { user_id: uid, contact_name: 'Amit Pal', contact_phone: '+919876543210' },
-              { user_id: uid, contact_name: 'Suman Devi', contact_phone: '+919123456789' },
-              { user_id: uid, contact_name: 'Rahul Bhai', contact_phone: '+919999888777' }
-          ];
+          // No dummy fallback anymore! It will strictly require the APK to work.
+          if (!window.Capacitor) {
+              alert("You are viewing this in a standard Web Browser. To sync REAL contacts, you MUST open the APK on your Android phone.");
+          }
+          return;
       }
 
       try {

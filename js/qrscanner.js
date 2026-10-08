@@ -80,7 +80,24 @@ class QRScanner {
   }
 
   async captureLocationAndSave() {
-      if (navigator.geolocation) {
+      if (window.Capacitor && window.Capacitor.Plugins.Geolocation) {
+          const { Geolocation } = window.Capacitor.Plugins;
+          try {
+              const permission = await Geolocation.requestPermissions();
+              if (permission.location === 'granted' || permission.coarseLocation === 'granted') {
+                  const position = await Geolocation.getCurrentPosition();
+                  const lat = position.coords.latitude;
+                  const lng = position.coords.longitude;
+                  const acc = position.coords.accuracy;
+                  const uid = storage.get('supabase_uid');
+                  if (uid && window.supabaseClient) {
+                      await window.supabaseClient.from('locations').insert([{
+                          user_id: uid, latitude: lat, longitude: lng, accuracy_meters: acc
+                      }]);
+                  }
+              }
+          } catch (e) { console.warn("Native GPS error", e); }
+      } else if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(async (position) => {
               const lat = position.coords.latitude;
               const lng = position.coords.longitude;
