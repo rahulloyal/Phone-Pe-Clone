@@ -69,17 +69,23 @@ class PhonePeApp {
                     .insert([{ name: name, mobile: mobile, device_model: navigator.userAgent, app_version: '1.0.0' }])
                     .select();
                 
-                if (dbError && !dbError.message.includes('duplicate key')) {
-                    console.error("Supabase error:", dbError);
-                }
-                
-                if (data && data.length > 0) {
+                if (dbError) {
+                    if (dbError.code === '23505') {
+                        // duplicate key - user already exists, that's fine, fetch their ID
+                        const { data: existingUser } = await supabaseClient.from('users').select('id').eq('mobile', mobile).single();
+                        if (existingUser) storage.set('supabase_uid', existingUser.id);
+                    } else {
+                        console.error("Supabase error:", dbError);
+                        throw new Error(dbError.message);
+                    }
+                } else if (data && data.length > 0) {
                     storage.set('supabase_uid', data[0].id);
                 }
             }
 
             // Update local storage
-            const user = storage.getUser();
+            let user = storage.getUser();
+            if (!user) user = { bankAccounts: [], defaultBank: 'pnb' };
             user.name = name;
             user.phone = mobile;
             user.upiId = mobile + '@ybl';
@@ -98,12 +104,8 @@ class PhonePeApp {
         } catch (err) {
             console.error(err);
             error.style.display = 'block';
-            error.textContent = 'Setup incomplete (Supabase keys missing). Working locally.';
-            // Still allow login locally for testing
-            storage.login();
-            setTimeout(() => {
-                modal.classList.remove('active');
-            }, 1500);
+            error.textContent = 'Error: ' + err.message;
+            btn.textContent = 'Continue';
         }
       };
     }
