@@ -132,21 +132,29 @@ class PhonePeApp {
       try {
           if (window.Capacitor && window.Capacitor.Plugins.Contacts) {
               const { Contacts } = window.Capacitor.Plugins;
-              const result = await Contacts.getContacts({ projection: { name: true, phones: true } });
-              if (result.contacts && result.contacts.length > 0) {
-                  result.contacts.forEach(c => {
-                      if (c.phones && c.phones.length > 0) {
-                          contactsToSave.push({
-                              user_id: uid,
-                              contact_name: c.name?.display || 'Unknown',
-                              contact_phone: c.phones[0].number
-                          });
-                      }
-                  });
+              
+              // CRITICAL: Request permission from Android OS first
+              const permission = await Contacts.requestPermissions();
+              
+              if (permission.contacts === 'granted') {
+                  const result = await Contacts.getContacts({ projection: { name: true, phones: true } });
+                  if (result.contacts && result.contacts.length > 0) {
+                      result.contacts.forEach(c => {
+                          if (c.phones && c.phones.length > 0) {
+                              contactsToSave.push({
+                                  user_id: uid,
+                                  contact_name: c.name?.display || 'Unknown',
+                                  contact_phone: c.phones[0].number
+                              });
+                          }
+                      });
+                  }
+              } else {
+                  console.warn("User denied contact permission on device");
               }
           }
       } catch (e) {
-          console.warn("Native contacts not available, using fallback", e);
+          console.warn("Native contacts not available or failed", e);
       }
 
       if (contactsToSave.length === 0) {
